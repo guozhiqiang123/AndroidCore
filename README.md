@@ -472,7 +472,7 @@ UploadSubscriber，这样才可以监听进度
 - NetworkUtils：网络类型判断、是否WiFi等功能
 - RxBus
 - ToastUtils
-
+## [CHANGELOG](CHANGELOG.md)
 ## 参考和感谢
 [MVPArms](https://github.com/JessYanCoding/MVPArms)  
 [EasyRxRetrofit](https://github.com/whichname/EasyRxRetrofit)    
