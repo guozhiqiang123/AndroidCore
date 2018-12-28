@@ -1,0 +1,19 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.gzq.lib_resource">
+
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+
+    <application>
+        <!--name:实现类的全路径；value:GlobalConfig固定值-->
+        <meta-data
+            android:name="com.gzq.lib_resource.GlobalConfiguration"
+            android:value="GlobalConfig" />
+        <meta-data
+            android:name="com.gzq.lib_resource.app.InitLibrary"
+            android:value="AppLifecycle"/>
+    </application>
+</manifest>
