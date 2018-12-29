@@ -473,6 +473,7 @@ UploadSubscriber，这样才可以监听进度**
 - RxBus
 - ToastUtils
 ## [CHANGELOG](CHANGELOG.md)
+## [Wiki](https://github.com/guozhiqiang123/AndroidCore/wiki)
 ## 参考和感谢
 [MVPArms](https://github.com/JessYanCoding/MVPArms)  
 [EasyRxRetrofit](https://github.com/whichname/EasyRxRetrofit)    

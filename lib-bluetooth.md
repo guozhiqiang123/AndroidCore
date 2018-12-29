@@ -1,7 +1,7 @@
 # Android项目架构探索 
 
 ## lib-bluetooth
-在工作中，老大让我负责蓝牙相关功能模块的开发，这不是一个标准的蓝牙库，只是在大佬开源的[BluetoothKit](https://github.com/dingjikerbo/Android-BluetoothKit)
+在工作中，老大让我负责蓝牙相关功能模块的开发，所以就有了这么一个lib。这不是一个标准的蓝牙库，只是在大佬开源的[BluetoothKit](https://github.com/dingjikerbo/Android-BluetoothKit)
 基础上做了二次封装，更加方便使用，同时和Lifecycle做了结合，防止内存泄漏。
 
 ## 使用
