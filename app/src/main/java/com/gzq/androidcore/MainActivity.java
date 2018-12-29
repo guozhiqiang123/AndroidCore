@@ -6,6 +6,7 @@ import android.os.Bundle;
 import com.gzq.lib_resource.mvp.base.BaseActivity;
 import com.gzq.lib_resource.mvp.base.BasePresenter;
 import com.gzq.lib_resource.mvp.base.IPresenter;
+import com.gzq.lib_resource.mvp.base.IView;
 
 public class MainActivity extends BaseActivity{
     @Override
