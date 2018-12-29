@@ -445,8 +445,8 @@ RxUploadUtil.uploadFile(new File(""), FileUploadService.class,"upload")
                     }
                 });
 ```
-注意：1.第三个参数一定是FileUploadService.class中的方法名，因为内部是使用反射实现方法的调用；2.使用
-UploadSubscriber，这样才可以监听进度
+**注意：1.第三个参数一定是FileUploadService.class中的方法名，因为内部是使用反射实现方法的调用；2.使用
+UploadSubscriber，这样才可以监听进度**
 
 ### 9.文件下载
 ```java
@@ -464,7 +464,7 @@ UploadSubscriber，这样才可以监听进度
                     }
                 });
 ```
-**注意：** 使用DownLoadSubscriber才可以监听下载进度
+**注意:使用DownLoadSubscriber才可以监听下载进度**
 ### 10.其他
 - ActivityUtils：自己维护Stack管理所有Activity。建议所有Activity的跳转都使用该工具类
 - KVUtils：腾讯MMKV开源库的封装
