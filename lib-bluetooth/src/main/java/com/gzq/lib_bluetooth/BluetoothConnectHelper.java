@@ -69,7 +69,7 @@ public class BluetoothConnectHelper {
                     Timber.tag(TAG).i("bluetooth is connected");
                     isConnected = true;
                     connectListener.success(BluetoothUtils.getRemoteDevice(mac));
-                }else if (status == 32) {
+                } else if (status == 32) {
                     Timber.i("BleConnectStatusListener>>>>>>=====>>>>>is disconnected");
                     isConnected = false;
                     connectListener.disConnect(mac);
@@ -78,16 +78,22 @@ public class BluetoothConnectHelper {
         }
     }
 
+    public synchronized void disConnect() {
+        if (isConnected) {
+            isConnected = false;
+            if (!TextUtils.isEmpty(address)) {
+                BluetoothStore.getClient().disconnect(address);
+            }
+        }
+    }
+
     public synchronized void clear() {
         isClear = true;
-
-        connectStatusListener = null;
         connectListener = null;
-        if (connectStatusListener != null) {
+        if (!TextUtils.isEmpty(address) && connectStatusListener != null) {
             BluetoothStore.getClient().unregisterConnectStatusListener(address, connectStatusListener);
         }
         connectStatusListener = null;
-
         if (address == null) {
             return;
         }

@@ -22,3 +22,7 @@ copy一份，不仅在版本迭代中不易维护，更重要的是会造成包�
 
 ### 公共引用
 ![aaa](/img/20181229144801.png)
+
+## 参考和感谢    
+[MVVMHabit](https://github.com/goldze/MVVMHabit)   
+[LoadSir](https://github.com/KingJA/LoadSir)

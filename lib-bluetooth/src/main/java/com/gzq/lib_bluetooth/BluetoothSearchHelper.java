@@ -2,6 +2,7 @@ package com.gzq.lib_bluetooth;
 
 import android.annotation.SuppressLint;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.inuker.bluetooth.library.search.SearchRequest;
 import com.inuker.bluetooth.library.search.SearchResult;
@@ -85,17 +86,21 @@ public class BluetoothSearchHelper {
 
         @Override
         public void onDeviceFounded(SearchResult device) {
-            Timber.i(device.getName() + ">>>======>>>>" + device.getAddress());
+            Log.i("BluetoothSearching", device.getName() + ">>>======>>>>" + device.getAddress());
             if (!isClear) {
+                if (searchListener != null) {
+                    searchListener.onNewDeviceFinded(device.device);
+                }
                 synchronized (BluetoothSearchHelper.this) {
                     for (String name : bleNames) {
                         String deviceName = device.getName();
                         if (TextUtils.isEmpty(deviceName)) {
-                            continue;
+                            break;
                         }
                         if (searchListener != null && deviceName.contains(name)) {
                             isFindOne = true;
                             searchListener.obtainDevice(device.device);
+                            break;
                         }
                     }
                 }
@@ -127,7 +132,12 @@ public class BluetoothSearchHelper {
             }
         }
     }
-
+    public synchronized void stop(){
+        Timber.i("BluetoothSearchHelper>>>>===>>>stop");
+        isOnSearching=false;
+        BluetoothStore.getClient().stopSearch();
+        isFindOne=false;
+    }
     public synchronized void clear() {
         Timber.i("BluetoothSearchHelper>>>>===>>>clear");
         isClear = true;

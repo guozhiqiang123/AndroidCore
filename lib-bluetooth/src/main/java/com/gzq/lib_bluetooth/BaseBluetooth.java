@@ -46,7 +46,7 @@ public abstract class BaseBluetooth extends BasePresenter {
     @SuppressLint("RestrictedApi")
     public BaseBluetooth(IBluetoothView owner) {
         super(owner);
-        this.baseView=owner;
+        this.baseView = owner;
         if (owner instanceof Activity) {
             activity = ((SupportActivity) owner);
         } else if (owner instanceof Fragment) {
@@ -158,6 +158,11 @@ public abstract class BaseBluetooth extends BasePresenter {
         }
 
         @Override
+        public void onNewDeviceFinded(BluetoothDevice newDevice) {
+            newDeviceFinded(newDevice);
+        }
+
+        @Override
         public void obtainDevice(BluetoothDevice device) {
             this.device = device;
             if (searchHelper != null) {
@@ -238,6 +243,9 @@ public abstract class BaseBluetooth extends BasePresenter {
         activity = null;
         connectListener = null;
         searchListener = null;
+    }
+
+    protected void newDeviceFinded(BluetoothDevice device) {
     }
 
     protected abstract void noneFind();
