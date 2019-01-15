@@ -1,4 +1,4 @@
-include ':app',
+include ':app', ':qmui',
         ':lib-core',
         ':lib-resource',
         'lib-bluetooth',
