@@ -1,0 +1,78 @@
+//ARetrofit插件（https://github.com/yifei8/ARetrofit）
+apply plugin: 'com.sjtu.yifei.autoinject'
+//该文件是公共配置，除了公用库不能引用外，业务组件均可引用
+//为什么公用库不能使用该插件？====>因为公用库会在本文件的dependencies中添加，如果公用库再使用该插件，岂不是循环依赖了？
+android {
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    defaultConfig {
+        if (project.ext.runAsApp) {
+            applicationId "com.gcml.healthfamily"
+        }
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
+        versionCode rootProject.ext.android["versionCode"]
+        versionName rootProject.ext.android["versionName"]
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+        release {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+
+    buildTypes {
+        debug {
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            signingConfig signingConfigs.debug
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            lintOptions {
+                checkReleaseBuilds false
+                abortOnError false
+            }
+            signingConfig signingConfigs.release
+        }
+    }
+
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    dataBinding {
+        enabled = true
+    }
+}
+repositories {
+    flatDir {
+        //将aar文件全部存放在根目录下的aar文件夹中，方便统一管理
+        dirs rootProject.file('aar')
+    }
+}
+dependencies {
+    //公共依赖统一管理
+    implementation project(':lib-resource')
+    implementation project(':lib-bluetooth')
+    implementation project(':lib-pay')
+    //路由框架ARetrofit（https://github.com/yifei8/ARetrofit）
+    implementation rootProject.ext.dependencies["routerfit-api"]
+    annotationProcessor  rootProject.ext.dependencies["routerfit-complier"]
+
+}

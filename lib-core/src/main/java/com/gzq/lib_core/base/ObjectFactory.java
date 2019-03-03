@@ -22,12 +22,13 @@ import com.gzq.lib_core.http.interceptor.LoggingInterceptor;
 import com.gzq.lib_core.session.MmkvSessionManager;
 import com.gzq.lib_core.session.SessionConfig;
 import com.gzq.lib_core.session.SessionManager;
-import com.gzq.lib_core.utils.UiUtils;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
+import me.jessyan.autosize.AutoSizeConfig;
+import me.jessyan.autosize.unit.Subunits;
 import me.jessyan.retrofiturlmanager.RetrofitUrlManager;
 import okhttp3.OkHttpClient;
 import okhttp3.internal.platform.Platform;
@@ -198,16 +199,6 @@ final class ObjectFactory {
         crashBuilder.apply();
     }
 
-    public static void initUiUtils(GlobalConfig globalConfig) {
-        int designWidth = globalConfig.getDesignWidth();
-        int designHeight = globalConfig.getDesignHeight();
-        if (designWidth > 0 && designHeight > 0) {
-            UiUtils.init(App.getApp(), designWidth, designHeight);
-        } else {
-            UiUtils.init(App.getApp(), 720, 1280);
-        }
-    }
-
     public static LoggingInterceptor getLoggingInterceptor() {
         return new LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
@@ -219,6 +210,33 @@ final class ObjectFactory {
                 .build();
     }
 
+    public static void initAutoSize(GlobalConfig globalConfig) {
+        //初始化屏幕适配器
+        int designWidth = globalConfig.getDesignWidth();
+        int designHeight = globalConfig.getDesignHeight();
+        boolean isSupportDP = globalConfig.isSupportDP();
+        boolean isSupportSP = globalConfig.isSupportSP();
+        Subunits subunits = globalConfig.getSubunits();
+        if (designWidth > 0 && designHeight > 0) {
+            AutoSizeConfig.getInstance()
+                    .setCustomFragment(true)
+                    .getUnitsManager()
+                    .setDesignWidth(designWidth)
+                    .setDesignHeight(designHeight)
+                    .setSupportDP(isSupportDP)
+                    .setSupportSP(isSupportSP)
+                    .setSupportSubunits(subunits);
+        } else {
+            AutoSizeConfig.getInstance()
+                    .setCustomFragment(true)
+                    .getUnitsManager()
+                    .setDesignWidth(720)
+                    .setDesignHeight(1280)
+                    .setSupportDP(true)
+                    .setSupportSP(true)
+                    .setSupportSubunits(Subunits.NONE);
+        }
+    }
     public static void clear() {
         gsonBuilder = null;
         okhttpBuilder = null;

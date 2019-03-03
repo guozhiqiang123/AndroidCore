@@ -16,6 +16,7 @@ import com.gzq.lib_resource.mvp.base.BaseActivity;
 import com.gzq.lib_resource.mvp.base.BasePresenter;
 import com.gzq.lib_resource.mvp.base.IPresenter;
 import com.gzq.lib_resource.mvp.base.IView;
+import com.sjtu.yifei.route.Routerfit;
 
 public class MainActivity extends BaseActivity implements IBluetoothView{
     @Override

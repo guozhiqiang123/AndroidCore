@@ -22,6 +22,7 @@ import com.gzq.lib_resource.utils.DeviceUtils;
 
 import java.io.IOException;
 
+import me.jessyan.autosize.unit.Subunits;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -45,8 +46,10 @@ public class GlobalConfiguration implements GlobalModule {
                 .designWidth(720)
                 //设计图的高 单位：px
                 .designHeight(1280)
+                //设置对副单位的支持
+                .autoSize(false, false, Subunits.PT)
                 //配置是否Room数据库进行网络请求的缓存
-                .roomCache(true, CacheMode.FIRST_CACHE_THEN_REQUEST, 60)
+                .roomCache(false, CacheMode.FIRST_CACHE_THEN_REQUEST, 60)
                 //OkHttpClient的拓展配置
                 .okhttpConfiguration(new OkhttpConfig() {
                     @Override

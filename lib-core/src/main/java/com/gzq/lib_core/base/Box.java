@@ -4,6 +4,8 @@ import android.app.Application;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.annotation.ColorRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
@@ -12,10 +14,7 @@ import android.support.v4.content.ContextCompat;
 
 import com.google.gson.Gson;
 import com.gzq.lib_core.base.delegate.AppLifecycle;
-import com.gzq.lib_core.base.quality.LeakCanaryUtil;
 import com.gzq.lib_core.session.SessionManager;
-import com.gzq.lib_core.utils.KVUtils;
-import com.gzq.lib_core.utils.UiUtils;
 
 import retrofit2.Retrofit;
 import timber.log.Timber;
@@ -25,6 +24,7 @@ public class Box implements AppLifecycle {
     private static Application mApplication;
     private static Gson gson;
     private static Retrofit retrofit;
+    private static Handler handler;
 
     @Override
     public void attachBaseContext(@NonNull Context base) {
@@ -33,26 +33,12 @@ public class Box implements AppLifecycle {
 
     @Override
     public void onCreate(@NonNull Application application) {
-        //初始化全局变量
         mApplication = application;
-        gson = ObjectFactory.getGson(mApplication, App.getGlobalConfig());
-        retrofit = ObjectFactory.getRetrofit(mApplication, App.getGlobalConfig());
-        //初始化Ui工具
-        ObjectFactory.initUiUtils(App.getGlobalConfig());
-        //初始化LeakCanary
-        LeakCanaryUtil.getInstance().init(application);
-        //初始化KVUtil
-        KVUtils.init(application);
-        //用户信息管理器
-        ObjectFactory.initSessionManager(mApplication, App.getGlobalConfig());
-        //崩溃拦截配置
-        ObjectFactory.initCrashManager(mApplication, App.getGlobalConfig());
         Timber.tag(TAG).i("onCreate");
     }
 
     @Override
     public void onTerminate(@NonNull Application application) {
-        ObjectFactory.clear();
         mApplication = null;
         gson = null;
         retrofit = null;
@@ -61,7 +47,6 @@ public class Box implements AppLifecycle {
 
     @Override
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
-        UiUtils.compatWithOrientation(newConfig);
     }
 
 
@@ -75,6 +60,9 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static Gson getGson() {
+        if (gson == null) {
+            gson = ObjectFactory.getGson(mApplication, App.getGlobalConfig());
+        }
         return gson;
     }
 
@@ -84,6 +72,9 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static <T> T getRetrofit(Class<T> serviceClazz) {
+        if (retrofit == null) {
+            retrofit = ObjectFactory.getRetrofit(mApplication, App.getGlobalConfig());
+        }
         return retrofit.create(serviceClazz);
     }
 
@@ -138,5 +129,17 @@ public class Box implements AppLifecycle {
      */
     public static int getColor(@ColorRes int id) {
         return ContextCompat.getColor(getApp(), id);
+    }
+
+    /**
+     * 提供全局的handler
+     * @param looper
+     * @return
+     */
+    public static Handler getHandler(Looper looper) {
+        if (handler == null) {
+            handler = new Handler(looper);
+        }
+        return handler;
     }
 }

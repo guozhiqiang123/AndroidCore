@@ -10,12 +10,18 @@ import com.gzq.lib_core.base.config.RoomDatabaseConfig;
 import com.gzq.lib_core.base.config.SessionManagerConfig;
 import com.gzq.lib_core.http.cache.CacheMode;
 
+import me.jessyan.autosize.unit.Subunits;
+
 
 public final class GlobalConfig {
     private String baseUrl;
+    private boolean canMock;
     private String roomName;
     private int designWidth;
     private int designHeight;
+    private boolean isSupportDP;
+    private boolean isSupportSP;
+    private Subunits subunits;
     /**
      * 默认Room进行网络缓存
      */
@@ -33,6 +39,10 @@ public final class GlobalConfig {
         return baseUrl;
     }
 
+    public boolean isCanMock() {
+        return canMock;
+    }
+
     public String getRoomName() {
         return roomName;
     }
@@ -43,6 +53,18 @@ public final class GlobalConfig {
 
     public int getDesignHeight() {
         return designHeight;
+    }
+
+    public boolean isSupportDP() {
+        return isSupportDP;
+    }
+
+    public boolean isSupportSP() {
+        return isSupportSP;
+    }
+
+    public Subunits getSubunits() {
+        return subunits;
     }
 
     public boolean isRoomCache() {
@@ -83,9 +105,13 @@ public final class GlobalConfig {
 
     public GlobalConfig(Builder builder) {
         this.baseUrl = builder.baseUrl;
+        this.canMock = builder.canMock;
         this.roomName = builder.roomName;
         this.designWidth = builder.designWidth;
         this.designHeight = builder.designHeight;
+        this.isSupportSP = builder.isSupportSP;
+        this.isSupportDP = builder.isSupportDP;
+        this.subunits = builder.subunits;
         this.isRoomCache = builder.isRoomCache;
         this.cacheMode = builder.cacheMode;
         this.cacheSecond = builder.cacheSecond;
@@ -103,10 +129,14 @@ public final class GlobalConfig {
 
     public static final class Builder {
         private String baseUrl;
+        private boolean canMock;
         private String roomName;
         private int designWidth;
         private int designHeight;
-        private boolean isRoomCache = true;
+        private boolean isSupportDP;
+        private boolean isSupportSP;
+        private Subunits subunits;
+        private boolean isRoomCache;
         private String cacheMode = CacheMode.NO_CACHE;
         private int cacheSecond = -1;
         private GsonConfig gsonConfig;
@@ -128,6 +158,11 @@ public final class GlobalConfig {
             return this;
         }
 
+        public Builder canMock(boolean canMock) {
+            this.canMock = canMock;
+            return this;
+        }
+
         public Builder roomName(String roomName) {
             if (TextUtils.isEmpty(roomName)) {
                 throw new IllegalArgumentException("RoomDatabase name can not be empty");
@@ -146,8 +181,15 @@ public final class GlobalConfig {
             return this;
         }
 
+        public Builder autoSize(boolean isSupportSP, boolean isSupportDP, Subunits subunits) {
+            this.isSupportSP = isSupportSP;
+            this.isSupportDP = isSupportDP;
+            this.subunits = subunits;
+            return this;
+        }
+
         public Builder roomCache(boolean isRoomCache, String cacheMode, int cacheSecond) {
-            this.cacheSecond=cacheSecond;
+            this.cacheSecond = cacheSecond;
             if (isRoomCache) {
                 this.isRoomCache = true;
                 this.cacheMode = cacheMode;
