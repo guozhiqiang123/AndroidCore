@@ -1,6 +1,5 @@
 ext.mainApp = true
-apply from: rootProject.file('auto-dependences.gradle')
-apply from: rootProject.file('common-build.gradle')
+apply from: rootProject.file('common-component-build.gradle')
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')

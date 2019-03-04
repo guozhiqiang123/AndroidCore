@@ -1,3 +1,5 @@
+//判断该模块是library还是app
+apply from: rootProject.file('auto-dependences.gradle')
 //ARetrofit插件（https://github.com/yifei8/ARetrofit）
 apply plugin: 'com.sjtu.yifei.autoinject'
 //该文件是公共配置，除了公用库不能引用外，业务组件均可引用
@@ -6,6 +8,7 @@ android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
     defaultConfig {
         if (project.ext.runAsApp) {
+            //在开发自己项目的时候，这里改成自己命名的applicationId
             applicationId "com.gcml.healthfamily"
         }
         minSdkVersion rootProject.ext.android["minSdkVersion"]
@@ -16,6 +19,7 @@ android {
         multiDexEnabled true
     }
 
+    //在local.properties中配置自己项目的签名文件
     signingConfigs {
         debug {
             storeFile file(RELEASE_STORE_FILE)
@@ -40,8 +44,17 @@ android {
             signingConfig signingConfigs.debug
         }
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            if (project.name == "app") {
+                minifyEnabled false
+                shrinkResources false
+                zipAlignEnabled false
+                debuggable false
+                proguardFiles rootProject.file('proguard-system-common.pro'),
+                        rootProject.file('proguard-second-party.pro'),
+                        rootProject.file('proguard-third-party.pro'),
+                        rootProject.file('proguard-module.pro')
+            }
+
             lintOptions {
                 checkReleaseBuilds false
                 abortOnError false
@@ -50,12 +63,12 @@ android {
         }
     }
 
-
+    //指定使用JDK1.8
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-
+    //开启databinding的功能
     dataBinding {
         enabled = true
     }
@@ -67,12 +80,9 @@ repositories {
     }
 }
 dependencies {
-    //公共依赖统一管理
-    implementation project(':lib-resource')
-    implementation project(':lib-bluetooth')
-    implementation project(':lib-pay')
     //路由框架ARetrofit（https://github.com/yifei8/ARetrofit）
     implementation rootProject.ext.dependencies["routerfit-api"]
     annotationProcessor  rootProject.ext.dependencies["routerfit-complier"]
-
+    //为每个组件引用公共模块
+    implementation project(':lib-resource')
 }
