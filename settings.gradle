@@ -1,5 +1,4 @@
 include ':app',
-        ':qmui',
         ':module-test1',
         ':module-test2',
         ':lib-core',
