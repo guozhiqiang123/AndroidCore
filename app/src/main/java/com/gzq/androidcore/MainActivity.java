@@ -1,24 +1,16 @@
 package com.gzq.androidcore;
 
-import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.os.Bundle;
 
-import com.gzq.lib_bluetooth.BluetoothConnectHelper;
-import com.gzq.lib_bluetooth.BluetoothSearchHelper;
-import com.gzq.lib_bluetooth.ConnectListener;
-import com.gzq.lib_bluetooth.IBluetoothView;
-import com.gzq.lib_bluetooth.SearchListener;
-import com.gzq.lib_pay.OnSuccessAndErrorListener;
-import com.gzq.lib_pay.alipay.AliPayUtils;
-import com.gzq.lib_pay.wechat.WechatPayUtils;
+import com.gzq.lib_core.base.Box;
+import com.gzq.lib_core.http.exception.ApiException;
+import com.gzq.lib_core.http.observer.CommonObserver;
+import com.gzq.lib_core.utils.RxUtils;
 import com.gzq.lib_resource.mvp.base.BaseActivity;
-import com.gzq.lib_resource.mvp.base.BasePresenter;
 import com.gzq.lib_resource.mvp.base.IPresenter;
-import com.gzq.lib_resource.mvp.base.IView;
-import com.sjtu.yifei.route.Routerfit;
 
-public class MainActivity extends BaseActivity implements IBluetoothView{
+public class MainActivity extends BaseActivity {
     @Override
     public int layoutId(Bundle savedInstanceState) {
         return R.layout.activity_main;
@@ -26,30 +18,30 @@ public class MainActivity extends BaseActivity implements IBluetoothView{
 
     @Override
     public void initParams(Intent intentArgument, Bundle bundleArgument) {
-
-        AliPayUtils.aliPay(this, "后台获取的订单信息", new OnSuccessAndErrorListener() {
-            @Override
-            public void onSuccess(String s) {
-
-            }
-
-            @Override
-            public void onError(String s) {
-
-            }
-        });
-        WechatPayUtils.wechatPayApp(this, "AppId", "商户号", "私钥",
-                "预支付交易会话ID", "发起支付的时间戳", "签名", new OnSuccessAndErrorListener() {
+        Box.getRetrofit(API.class)
+                .test()
+                //自定义的数据流转换器
+                .compose(RxUtils.httpResponseTransformer())
+                //Retrofit的生命周期管理
+                .as(RxUtils.autoDisposeConverter(this))
+                //CommonObserver中加入了网络监测
+                .subscribe(new CommonObserver<Object>(900) {
                     @Override
-                    public void onSuccess(String s) {
+                    public void onNext(Object o) {
 
                     }
 
                     @Override
-                    public void onError(String s) {
+                    protected void onNetError() {
+
+                    }
+
+                    @Override
+                    protected void onEmptyData() {
 
                     }
                 });
+
     }
 
     @Override
@@ -59,16 +51,8 @@ public class MainActivity extends BaseActivity implements IBluetoothView{
 
     @Override
     public IPresenter obtainPresenter() {
-        return new BasePresenter(this) {};
+        return null;
     }
 
-    @Override
-    public void updateData(String... datas) {
 
-    }
-
-    @Override
-    public void updateState(String state) {
-
-    }
 }

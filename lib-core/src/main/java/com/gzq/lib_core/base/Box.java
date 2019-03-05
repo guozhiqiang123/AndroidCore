@@ -133,6 +133,7 @@ public class Box implements AppLifecycle {
 
     /**
      * 提供全局的handler
+     *
      * @param looper
      * @return
      */
@@ -141,5 +142,9 @@ public class Box implements AppLifecycle {
             handler = new Handler(looper);
         }
         return handler;
+    }
+
+    public static void test() {
+        ObjectFactory.getGson(mApplication, App.getGlobalConfig());
     }
 }

@@ -21,6 +21,7 @@ import io.reactivex.schedulers.Schedulers;
 public class RxUtils {
     /**
      * 默认回调到主线程
+     *
      * @param <T>
      * @return
      */
@@ -29,7 +30,6 @@ public class RxUtils {
             @Override
             public ObservableSource<T> apply(Observable<BaseModel<T>> upstream) {
                 return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
                         .compose(ErrorTransformer.<T>getInstance())
                         .observeOn(AndroidSchedulers.mainThread());
             }
@@ -38,7 +38,8 @@ public class RxUtils {
 
     /**
      * 自己决定是否回调到主线程
-     * @param isObserveOnMain
+     *
+     * @param isObserveOnMain{@code true:}
      * @param <T>
      * @return
      */
@@ -46,14 +47,13 @@ public class RxUtils {
         return new ObservableTransformer<BaseModel<T>, T>() {
             @Override
             public ObservableSource<T> apply(Observable<BaseModel<T>> upstream) {
-                if (isObserveOnMain){
-                    return upstream.subscribeOn(Schedulers.io())
-                            .observeOn(Schedulers.newThread())
+                if (isObserveOnMain) {
+                    return upstream
+                            .subscribeOn(Schedulers.io())
                             .compose(ErrorTransformer.<T>getInstance())
                             .observeOn(AndroidSchedulers.mainThread());
                 }
                 return upstream.subscribeOn(Schedulers.io())
-                        .observeOn(Schedulers.newThread())
                         .compose(ErrorTransformer.<T>getInstance());
             }
         };

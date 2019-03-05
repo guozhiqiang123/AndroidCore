@@ -42,9 +42,9 @@ public class GlobalConfiguration implements GlobalModule {
                 .baseurl(BuildConfig.SERVER_ADDRESS)
                 //Room数据库的名字
                 .roomName("ABC")
-                //设计图的宽 单位：px
+                //第二套设计图的宽 单位：px
                 .designWidth(720)
-                //设计图的高 单位：px
+                //第二套设计图的高 单位：px
                 .designHeight(1280)
                 //设置对副单位的支持
                 .autoSize(false, false, Subunits.PT)

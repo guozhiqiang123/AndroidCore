@@ -58,6 +58,7 @@ public class AppStore implements AppLifecycle {
                 .addCallback(new NetErrorPage())
                 .setDefaultCallback(LoadingPage.class)
                 .commit();
+
     }
 
     @Override

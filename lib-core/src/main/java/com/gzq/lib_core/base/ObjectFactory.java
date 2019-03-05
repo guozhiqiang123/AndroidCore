@@ -3,6 +3,8 @@ package com.gzq.lib_core.base;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -57,6 +59,7 @@ final class ObjectFactory {
         if (gsonConfig != null) {
             gsonConfig.gson(context, gsonBuilder);
         }
+        Timber.i(">>>>>>>" + gsonBuilder + "<<<<<<<<<<<");
         return gsonBuilder.create();
     }
 
@@ -226,17 +229,9 @@ final class ObjectFactory {
                     .setSupportDP(isSupportDP)
                     .setSupportSP(isSupportSP)
                     .setSupportSubunits(subunits);
-        } else {
-            AutoSizeConfig.getInstance()
-                    .setCustomFragment(true)
-                    .getUnitsManager()
-                    .setDesignWidth(720)
-                    .setDesignHeight(1280)
-                    .setSupportDP(true)
-                    .setSupportSP(true)
-                    .setSupportSubunits(Subunits.NONE);
         }
     }
+
     public static void clear() {
         gsonBuilder = null;
         okhttpBuilder = null;
@@ -246,4 +241,5 @@ final class ObjectFactory {
             roomBuilders = null;
         }
     }
+
 }

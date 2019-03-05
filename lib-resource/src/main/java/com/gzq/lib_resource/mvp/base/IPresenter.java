@@ -9,7 +9,7 @@ import android.arch.lifecycle.OnLifecycleEvent;
  * Created by afirez on 2017/7/12.
  */
 
-public interface IPresenter<P> extends LifecycleObserver {
+public interface IPresenter extends LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     void onCreate(LifecycleOwner owner);
