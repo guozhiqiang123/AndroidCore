@@ -8,9 +8,17 @@
 - 使用meta-data+反射的方式实现Application、Activity、Fragment生命周期的分发
 - 使用建造者模式实现全局工具的统一配置（比如：网络baseUrl、UI适配设置、retrofit配置、数据库Room配置等）
 - 使用ARetrofit作为应用的路由框架，简单易用，可完全取代原生用法
+- 集成了LeakCanary、BlockCanary,自动监测内存泄漏、耗时代码；
 - Retrofit更加内敛、更加方便使用的封装（支持配置Room进行缓存、支持简单的上传下载）
 - 用户信息从登陆到退出程序的全局管理（一键更新，全局使用，处处可监听变化）
 - 崩溃信息的捕获，方便脱机调试
 
 ## 项目结构
 ![](https://github.com/guozhiqiang123/AndroidCore/blob/master/img/structure_chart.png)
+lib-core:集成了上面的核心功能，除特殊情况外，开发者不应该修改；   
+lib-resource:
+- 主要是放置公用的实体bean、代理接口、xml资源、图片资源、自定义的view、公用工具类等;
+- 引用的第三方库或者是集成的SDK都应该放在这里；   
+- app与module、module与module的通信是通过ARetrofit进行的（建议舍弃原生的startActivity和startActivityForResult）；
+- app模块依赖其他module的时候应该使用addComponent，而不是implementation或者api(该功能对于渐进式改造老项目奇效)
+
