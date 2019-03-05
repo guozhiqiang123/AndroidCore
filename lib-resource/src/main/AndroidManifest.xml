@@ -13,7 +13,7 @@
             android:name="com.gzq.lib_resource.GlobalConfiguration"
             android:value="GlobalConfig" />
         <meta-data
-            android:name="com.gzq.lib_resource.app.InitLibrary"
+            android:name="com.gzq.lib_resource.app.AppStore"
             android:value="AppLifecycle"/>
     </application>
 </manifest>

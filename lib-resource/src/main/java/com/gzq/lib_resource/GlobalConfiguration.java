@@ -39,7 +39,7 @@ public class GlobalConfiguration implements GlobalModule {
         Timber.i("GlobalConfiguration---->applyOptions");
         builder
                 //全局BaseUrl
-                .baseurl("http://www.gcmlrt.com/")
+                .baseurl(BuildConfig.SERVER_ADDRESS)
                 //Room数据库的名字
                 .roomName("ABC")
                 //设计图的宽 单位：px
@@ -75,6 +75,8 @@ public class GlobalConfiguration implements GlobalModule {
                 .sessionManagerConfiguration(new SessionManagerConfig() {
                     @Override
                     public void session(Context context, SessionConfig.Builder builder) {
+                        //SessionUserInfo和SessionToken是默认的实体类
+                        //此处需要根据自己的业务替换
                         builder.userClass(SessionUserInfo.class).tokenClass(SessionToken.class);
                     }
                 })
@@ -97,7 +99,7 @@ public class GlobalConfiguration implements GlobalModule {
                     @Override
                     public void crash(Context context, CaocConfig.Builder builder) {
                         //关闭崩溃全局监听
-                        builder.enabled(false);
+                        builder.enabled(BuildConfig.DEBUG);
                     }
                 });
 

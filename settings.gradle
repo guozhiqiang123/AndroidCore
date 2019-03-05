@@ -1,6 +1,6 @@
-include ':app', ':qmui', ':module-test1', ':module-test2',
+include ':app',
+        ':qmui',
+        ':module-test1',
+        ':module-test2',
         ':lib-core',
-        ':lib-resource',
-        'lib-bluetooth',
-        'lib-pay',
-        'lib-share-umeng'
+        ':lib-resource'

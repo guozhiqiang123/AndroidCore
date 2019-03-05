@@ -82,7 +82,7 @@ repositories {
 dependencies {
     //路由框架ARetrofit（https://github.com/yifei8/ARetrofit）
     implementation rootProject.ext.dependencies["routerfit-api"]
-    annotationProcessor  rootProject.ext.dependencies["routerfit-complier"]
+    annotationProcessor rootProject.ext.dependencies["routerfit-complier"]
     //为每个组件引用公共模块
     implementation project(':lib-resource')
 }

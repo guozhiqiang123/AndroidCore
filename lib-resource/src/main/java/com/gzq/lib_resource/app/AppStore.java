@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 
+import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_resource.BuildConfig;
 import com.gzq.lib_resource.state_page.EmptyPage;
@@ -24,8 +25,8 @@ import me.yokeyword.fragmentation.Fragmentation;
  * created by: gzq
  * description: TODO
  */
-public class InitLibrary implements AppLifecycle {
-    private static final String TAG = "InitLibrary";
+public class AppStore implements AppLifecycle {
+    private static final String TAG = "AppStore";
     private static final String BUGGLY_APPID = "8931446044";
 
     @Override
