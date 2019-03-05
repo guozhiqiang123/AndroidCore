@@ -13,3 +13,4 @@
 - 崩溃信息的捕获，方便脱机调试
 
 ## 项目结构
+![](https://github.com/guozhiqiang123/AndroidCore/blob/master/img/structure_chart.png)
