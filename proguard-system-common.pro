@@ -7,7 +7,7 @@
 -verbose    # 混淆时是否记录日志（混淆后生产映射文件 map 类名 -> 转化后类名的映射
 -dontpreverify # 不预校验
 -dontoptimize #不优化输入的类文件
--dontshrink #该选项 表示 不启用压缩  混淆时是否做预校验（可去掉加快混淆速度）
+#-dontshrink #该选项 表示 不启用压缩  混淆时是否做预校验（可去掉加快混淆速度）
 
 -dontusemixedcaseclassnames # 混淆时不会产生形形色色的类名  是否使用大小写混合
 -dontskipnonpubliclibraryclasses #不跳过(混淆) jars中的 非public classes   默认选项

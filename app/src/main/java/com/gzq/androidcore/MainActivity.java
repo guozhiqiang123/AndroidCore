@@ -2,13 +2,17 @@ package com.gzq.androidcore;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.http.exception.ApiException;
 import com.gzq.lib_core.http.observer.CommonObserver;
 import com.gzq.lib_core.utils.RxUtils;
+import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvp.base.BaseActivity;
 import com.gzq.lib_resource.mvp.base.IPresenter;
+import com.gzq.lib_resource.utils.LoadingObserver;
+import com.xuexiang.xaop.annotation.SingleClick;
 
 public class MainActivity extends BaseActivity {
     @Override
@@ -18,29 +22,6 @@ public class MainActivity extends BaseActivity {
 
     @Override
     public void initParams(Intent intentArgument, Bundle bundleArgument) {
-        Box.getRetrofit(API.class)
-                .test()
-                //自定义的数据流转换器
-                .compose(RxUtils.httpResponseTransformer())
-                //Retrofit的生命周期管理
-                .as(RxUtils.autoDisposeConverter(this))
-                //CommonObserver中加入了网络监测
-                .subscribe(new CommonObserver<Object>(900) {
-                    @Override
-                    public void onNext(Object o) {
-
-                    }
-
-                    @Override
-                    protected void onNetError() {
-
-                    }
-
-                    @Override
-                    protected void onEmptyData() {
-
-                    }
-                });
 
     }
 
@@ -54,5 +35,8 @@ public class MainActivity extends BaseActivity {
         return null;
     }
 
-
+//    @SingleClick(2000)
+    public void testclick(View view) {
+        ToastUtils.showShort("哈哈哈啊哈");
+    }
 }

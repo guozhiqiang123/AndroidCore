@@ -11,3 +11,6 @@
 -keep class com.gcml.module_shouhuan.bean.**{*;}
 
 
+#保持被反射类不被混淆
+-keep class com.gzq.lib_resource.app.AppStore{*;}
+-keep class com.gzq.lib_resource.GlobalConfiguration{*;}

@@ -306,3 +306,12 @@
 
 #ARetrofit
 -keep class * implements com.sjtu.yifei.annotation.InjectContract{*;}
+
+#XAOP
+-keep @com.xuexiang.xaop.annotation.* class * {*;}
+-keep class * {
+    @com.xuexiang.xaop.annotation.* <fields>;
+}
+-keepclassmembers class * {
+    @com.xuexiang.xaop.annotation.* <methods>;
+}

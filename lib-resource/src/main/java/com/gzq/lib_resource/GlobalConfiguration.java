@@ -42,9 +42,9 @@ public class GlobalConfiguration implements GlobalModule {
                 .baseurl(BuildConfig.SERVER_ADDRESS)
                 //Room数据库的名字
                 .roomName("ABC")
-                //第二套设计图的宽 单位：px
+                //设计图的宽 单位：px
                 .designWidth(720)
-                //第二套设计图的高 单位：px
+                //设计图的高 单位：px
                 .designHeight(1280)
                 //设置对副单位的支持
                 .autoSize(false, false, Subunits.PT)
@@ -54,18 +54,6 @@ public class GlobalConfiguration implements GlobalModule {
                 .okhttpConfiguration(new OkhttpConfig() {
                     @Override
                     public void okhttp(Context context, OkHttpClient.Builder builder) {
-                        builder.addInterceptor(new RoomCacheInterceptor())
-                                //添加统一请求头
-                                .addInterceptor(new Interceptor() {
-                                    @Override
-                                    public Response intercept(Chain chain) throws IOException {
-                                        Request request = chain.request()
-                                                .newBuilder()
-                                                .addHeader("equipmentId", DeviceUtils.getIMEI())
-                                                .build();
-                                        return chain.proceed(request);
-                                    }
-                                });
                         if (context.getPackageName().equals(ProcessUtils.getCurProcessName(context))) {
                             builder.addInterceptor(Pandora.get().getInterceptor());
                         }

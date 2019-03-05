@@ -6,4 +6,5 @@ dependencies {
 
     addComponent 'module-test1'
     addComponent 'module-test2'
+
 }

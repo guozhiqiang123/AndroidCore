@@ -19,6 +19,7 @@ import com.gzq.lib_core.base.config.RoomDatabaseConfig;
 import com.gzq.lib_core.base.config.SessionManagerConfig;
 import com.gzq.lib_core.constant.Constants;
 import com.gzq.lib_core.crash.CaocConfig;
+import com.gzq.lib_core.http.cache.RoomCacheInterceptor;
 import com.gzq.lib_core.http.interceptor.Level;
 import com.gzq.lib_core.http.interceptor.LoggingInterceptor;
 import com.gzq.lib_core.session.MmkvSessionManager;
@@ -77,6 +78,9 @@ final class ObjectFactory {
         OkhttpConfig okhttpConfig = globalConfig.getOkhttpConfig();
         if (okhttpConfig != null) {
             okhttpConfig.okhttp(context, okhttpBuilder);
+        }
+        if (globalConfig.isRoomCache()) {
+            okhttpBuilder.addInterceptor(new RoomCacheInterceptor());
         }
         if (BuildConfig.DEBUG) {
             okhttpBuilder.addInterceptor(getLoggingInterceptor());

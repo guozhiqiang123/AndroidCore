@@ -1,44 +1,78 @@
 package com.gzq.lib_resource.utils;
 
-import android.util.Log;
+import android.arch.lifecycle.LifecycleOwner;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
 
 import com.gzq.lib_core.http.exception.ApiException;
 import com.gzq.lib_core.http.observer.BaseObserver;
 import com.gzq.lib_core.utils.NetworkUtils;
 import com.gzq.lib_core.utils.ToastUtils;
+import com.gzq.lib_resource.R;
+import com.gzq.lib_resource.dialog.FDialog;
 
 
 public abstract class LoadingObserver<T> extends BaseObserver<T> {
-    private static final String TAG = "LoadingObserver";
+
+    private FragmentManager fragmentManager = null;
+    private FDialog fd;
+
+    public LoadingObserver(LifecycleOwner owner) {
+        if (owner instanceof FragmentActivity) {
+            fragmentManager = ((FragmentActivity) owner).getSupportFragmentManager();
+        } else if (owner instanceof Fragment) {
+            fragmentManager = ((Fragment) owner).getFragmentManager();
+        }
+    }
 
     @Override
     public void onStart() {
         if (!NetworkUtils.isNetworkAvailable()) {
             ToastUtils.showShort("当前无网络，请检查网络情况");
             onComplete();
-
             // 无网络执行complete后取消注册防调用onError
             if (!isDisposed()) {
-               dispose();
+                dispose();
             }
         } else {
-            LoadingViewUtils.show(null,false);
+            showLoading();
         }
     }
+
+    @Override
+    protected void onNetError() {
+        ToastUtils.showShort("当前无网络，请检查网络情况");
+    }
+
     @Override
     protected void onError(ApiException ex) {
-        LoadingViewUtils.hide();
-        ToastUtils.showShort(ex.message+":"+ex.code);
-        Log.e(TAG, "onError: " + ex.message + "code: " + ex.code);
+        hideLoading();
+        ToastUtils.showShort(ex.message + ":" + ex.code);
     }
 
     @Override
     public abstract void onNext(T t);
 
-    
+
     @Override
     public void onComplete() {
-        LoadingViewUtils.hide();
-        Log.d(TAG, "onComplete: ");
+        hideLoading();
+    }
+
+    private void showLoading() {
+        if (fragmentManager != null) {
+            fd = FDialog.build()
+                    .setSupportFM(fragmentManager)
+                    .setLayoutId(R.layout.dialog_layout_loading)
+                    .setOutCancel(false)
+                    .show();
+        }
+    }
+
+    private void hideLoading() {
+        if (fd != null) {
+            fd.dismiss();
+        }
     }
 }

@@ -1,12 +1,10 @@
 #自己开发的库的混淆
 
-# themeLib
--keep class com.xxx.theme.**{*;}
--dontwarn com.xxx.theme.**
-
--keep class com.xxx.md5.** {*;}
-
--keep class com.xxx.widget.**{*;}
--dontwarn com.xxx.widget.**
-
--keep class com.xxx.http.**{*;}
+#被使用反射的类
+-keep class com.gzq.lib_core.base.delegate.ActivityDetegate{*;}
+-keep class com.gzq.lib_core.base.delegate.AppDelegate{*;}
+-keep class com.gzq.lib_core.base.delegate.FragmentDetegate{*;}
+-keep class com.gzq.lib_core.base.quality.QualityActivity{*;}
+-keep class com.gzq.lib_core.base.quality.QualityBlockCanary{*;}
+-keep class com.gzq.lib_core.base.quality.QualityFragment{*;}
+-keep class com.gzq.lib_core.base.Box{*;}
