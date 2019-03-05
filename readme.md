@@ -265,7 +265,10 @@ Box.getRetrofit(API.class)
                 });
 ```
 
+在一个成熟的项目中，肯定不止使用一套域名，因此项目中baseUrl的切换肯定也是刚需，因此笔者还在lib-core中引用了 JessYanCoding的[RetrofitUrlManager](https://github.com/JessYanCoding/RetrofitUrlManager)这个动态切换baseUrl的库，如果有这个需求，直接在业务模块中使用即可，无需另外引用其他库。
+
 ## 文件上传
+
 ```java
 public interface FileUploadService {
 
@@ -316,4 +319,3 @@ RxUploadUtil.uploadFile(new File(""), FileUploadService.class,"upload")
 ```
 
 **注意:使用DownLoadSubscriber才可以监听下载进度**
-
