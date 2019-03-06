@@ -93,5 +93,5 @@ dependencies {
     //glide
     annotationProcessor rootProject.ext.dependencies["glide-compiler"]
     //XAOP
-    implementation 'com.github.xuexiangjys.XAOP:xaop-runtime:1.0.1'
+    annotationProcessor rootProject.ext.dependencies["xaop"]
 }

@@ -60,7 +60,6 @@ final class ObjectFactory {
         if (gsonConfig != null) {
             gsonConfig.gson(context, gsonBuilder);
         }
-        Timber.i(">>>>>>>" + gsonBuilder + "<<<<<<<<<<<");
         return gsonBuilder.create();
     }
 

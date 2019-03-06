@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
 
-import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_resource.BuildConfig;
 import com.gzq.lib_resource.state_page.EmptyPage;
@@ -58,7 +57,6 @@ public class AppStore implements AppLifecycle {
                 .addCallback(new NetErrorPage())
                 .setDefaultCallback(LoadingPage.class)
                 .commit();
-
     }
 
     @Override

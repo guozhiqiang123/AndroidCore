@@ -44,10 +44,6 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["room-compiler"]
     api rootProject.ext.dependencies["room-rxjava2"]
 
-    //rxpermission
-    api rootProject.ext.dependencies["rxpermissions2"]
-    api rootProject.ext.dependencies["rxerrorhandler2"]
-
     //屏幕适配工具
     api rootProject.ext.dependencies["autosize"]
 }
