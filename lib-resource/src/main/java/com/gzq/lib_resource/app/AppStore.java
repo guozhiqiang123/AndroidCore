@@ -14,8 +14,11 @@ import com.gzq.lib_resource.state_page.NetErrorPage;
 import com.gzq.lib_resource.utils.AppUtils;
 import com.kingja.loadsir.core.LoadSir;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.xuexiang.xaop.XAOP;
 
 import me.yokeyword.fragmentation.Fragmentation;
+
+import static com.gzq.lib_core.utils.SPUtil.getApplication;
 
 /**
  * copyright：杭州国辰迈联机器人科技有限公司
@@ -57,6 +60,10 @@ public class AppStore implements AppLifecycle {
                 .addCallback(new NetErrorPage())
                 .setDefaultCallback(LoadingPage.class)
                 .commit();
+
+        //初始化XAOP
+        XAOP.init(application);
+        XAOP.debug(BuildConfig.DEBUG);
     }
 
     @Override

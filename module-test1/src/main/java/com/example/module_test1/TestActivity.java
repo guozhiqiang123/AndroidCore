@@ -5,7 +5,6 @@ import android.os.Bundle;
 
 import com.gzq.lib_resource.mvp.StateBaseActivity;
 import com.gzq.lib_resource.mvp.base.IPresenter;
-import com.sjtu.yifei.route.Routerfit;
 
 public class TestActivity extends StateBaseActivity {
     @Override
