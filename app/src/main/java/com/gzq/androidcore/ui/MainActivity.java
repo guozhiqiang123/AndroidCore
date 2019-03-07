@@ -1,5 +1,6 @@
-package com.gzq.androidcore;
+package com.gzq.androidcore.ui;
 
+import com.gzq.androidcore.R;
 import com.gzq.androidcore.controller.MainController;
 import com.gzq.androidcore.databinding.ActivityMainBinding;
 import com.gzq.androidcore.vm.MainActivityModel;
