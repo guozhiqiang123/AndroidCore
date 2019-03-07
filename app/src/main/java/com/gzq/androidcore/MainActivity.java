@@ -1,27 +1,40 @@
 package com.gzq.androidcore;
 
-import android.arch.lifecycle.ViewModelProviders;
-import android.os.Bundle;
-
+import com.gzq.androidcore.controller.MainController;
 import com.gzq.androidcore.databinding.ActivityMainBinding;
+import com.gzq.androidcore.vm.MainActivityModel;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding,MainActivityModel> {
-
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityModel, MainController> {
 
     @Override
-    public int layoutId(Bundle savedInstanceState) {
+    public void initParam() {
 
+    }
+
+    @Override
+    public int layoutId() {
         return R.layout.activity_main;
     }
 
     @Override
-    public int initVariableId() {
-        return BR.ViewMode;
+    public MainActivityModel setViewModel(ActivityMainBinding binding) {
+        MainActivityModel mainActivityModel = new MainActivityModel();
+        binding.setVm(mainActivityModel);
+        return mainActivityModel;
     }
 
     @Override
-    public MainActivityModel getViewModelSubClass() {
-        return ViewModelProviders.of(this).get(MainActivityModel.class);
+    public MainController setController(ActivityMainBinding binding) {
+        MainController mainController = new MainController();
+        binding.setController(mainController);
+        return mainController;
     }
+
+    @Override
+    public void setOtherModel(ActivityMainBinding binding) {
+
+    }
+
+
 }

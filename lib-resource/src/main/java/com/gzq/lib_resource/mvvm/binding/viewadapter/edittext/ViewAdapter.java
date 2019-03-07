@@ -9,6 +9,7 @@ import android.widget.EditText;
 
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 
+
 /**
  * Created by goldze on 2017/6/16.
  */

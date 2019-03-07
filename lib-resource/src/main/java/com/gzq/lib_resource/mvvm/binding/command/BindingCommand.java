@@ -1,6 +1,8 @@
 package com.gzq.lib_resource.mvvm.binding.command;
 
 
+import io.reactivex.exceptions.Exceptions;
+
 /**
  * About : kelin的ReplyCommand
  * 执行的命令回调, 用于ViewModel与xml之间的数据绑定

@@ -4,7 +4,6 @@ import android.databinding.BindingAdapter;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 
 import java.util.concurrent.TimeUnit;
@@ -56,6 +55,11 @@ public class ViewAdapter {
         RecyclerView.OnScrollListener listener = new OnScrollListener(onLoadMoreCommand);
         recyclerView.addOnScrollListener(listener);
 
+    }
+
+    @BindingAdapter("itemAnimator")
+    public static void setItemAnimator(RecyclerView recyclerView, RecyclerView.ItemAnimator animator) {
+        recyclerView.setItemAnimator(animator);
     }
 
     public static class OnScrollListener extends RecyclerView.OnScrollListener {

@@ -6,7 +6,6 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 
 import java.util.concurrent.TimeUnit;

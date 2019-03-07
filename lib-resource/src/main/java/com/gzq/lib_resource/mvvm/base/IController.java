@@ -6,12 +6,7 @@ import android.arch.lifecycle.LifecycleOwner;
 import android.arch.lifecycle.OnLifecycleEvent;
 import android.support.annotation.NonNull;
 
-/**
- * Created by gzq on 2017/6/15.
- */
-
-public interface IBaseViewModel extends LifecycleObserver {
-
+public interface IController extends LifecycleObserver {
     @OnLifecycleEvent(Lifecycle.Event.ON_CREATE)
     void onCreate(@NonNull LifecycleOwner owner);
 
@@ -29,5 +24,4 @@ public interface IBaseViewModel extends LifecycleObserver {
 
     @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
     void onDestroy(LifecycleOwner owner);
-
 }

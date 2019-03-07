@@ -5,7 +5,6 @@ import android.support.v4.view.ViewPager;
 
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 
-
 /**
  * Created by goldze on 2017/6/18.
  */

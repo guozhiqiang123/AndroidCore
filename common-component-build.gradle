@@ -89,7 +89,7 @@ dependencies {
     //路由框架ARetrofit（https://github.com/yifei8/ARetrofit）
     annotationProcessor rootProject.ext.dependencies["routerfit-complier"]
     //为每个组件引用公共模块
-    implementation project(':lib-resource')
+    api project(':lib-resource')
     //glide
     annotationProcessor rootProject.ext.dependencies["glide-compiler"]
     //XAOP

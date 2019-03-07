@@ -2,6 +2,8 @@ package com.gzq.lib_resource.mvvm.binding.viewadapter.radiogroup;
 
 import android.databinding.BindingAdapter;
 import android.support.annotation.IdRes;
+import android.text.TextUtils;
+import android.webkit.WebView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
