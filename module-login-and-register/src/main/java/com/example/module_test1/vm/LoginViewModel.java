@@ -10,6 +10,8 @@ import com.gzq.lib_resource.mvvm.base.BaseViewModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 import com.gzq.lib_resource.mvvm.binding.command.BindingConsumer;
+import com.gzq.lib_resource.router.CommonRouterApi;
+import com.sjtu.yifei.route.Routerfit;
 
 public class LoginViewModel extends BaseViewModel {
     public ObservableField<String> editPhone = new ObservableField<>("");
@@ -105,6 +107,7 @@ public class LoginViewModel extends BaseViewModel {
                     public void run() {
                         ToastUtils.showShort("登录成功");
                         hideLoadingDialog();
+                        Routerfit.register(CommonRouterApi.class).skipMainActivity();
                     }
                 }, 3000);
     }

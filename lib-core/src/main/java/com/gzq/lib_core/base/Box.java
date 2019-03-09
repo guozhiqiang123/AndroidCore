@@ -16,6 +16,7 @@ import com.google.gson.Gson;
 import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_core.session.SessionManager;
 
+import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import timber.log.Timber;
 
@@ -25,6 +26,7 @@ public class Box implements AppLifecycle {
     private static Gson gson;
     private static Retrofit retrofit;
     private static Handler handler;
+    private static OkHttpClient okHttpClient;
 
     @Override
     public void attachBaseContext(@NonNull Context base) {
@@ -64,6 +66,13 @@ public class Box implements AppLifecycle {
             gson = ObjectFactory.getGson(mApplication, App.getGlobalConfig());
         }
         return gson;
+    }
+
+    public static OkHttpClient getOkHttpClient() {
+        if (okHttpClient == null) {
+            okHttpClient = ObjectFactory.getOkHttpClient(mApplication, App.getGlobalConfig());
+        }
+        return okHttpClient;
     }
 
     /**

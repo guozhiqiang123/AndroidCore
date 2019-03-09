@@ -66,4 +66,13 @@ dependencies {
     //滴滴开源的Android调试工具
 //    debugImplementation 'com.didichuxing.doraemonkit:doraemonkit:1.1.2'
 //    releaseImplementation 'com.didichuxing.doraemonkit:doraemonkit-no-op:1.1.2'
+
+    //减少书写drawable文件的库
+    api 'com.github.whataa:noDrawable:1.1.0'
+
+    //在android上查看MarkDown的库
+    api "ru.noties:markwon:2.0.1"
+    api "ru.noties:markwon-image-loader:2.0.1" // optional
+    api "ru.noties:markwon-syntax-highlight:2.0.1" // optional
+    api "ru.noties:markwon-view:2.0.1" // optional
 }

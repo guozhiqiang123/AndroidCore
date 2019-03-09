@@ -1,0 +1,6 @@
+apply from: rootProject.file('common-component-build.gradle')
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+}
+

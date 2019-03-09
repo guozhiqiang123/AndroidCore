@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="vm"
+            type="com.gzq.androidcore.vm.MainActivityItemModel" />
+    </data>
+
+    <TextView
+        android:id="@+id/item_content"
+        onClickCommand="@{vm.itemClick}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:clickable="true"
+        android:paddingLeft="15pt"
+        android:paddingTop="15pt"
+        android:paddingBottom="15pt"
+        android:text="@{vm.item}"
+        android:textSize="18sp"
+        tools:text="测试数据">
+
+    </TextView>
+</layout>

@@ -170,7 +170,7 @@ ext {
             "pandora-release"                      : "com.github.whataa:pandora-no-op:v1.2.0",
 
             //Component
-            "routerfit-api"                        : "com.sjtu.yifei:auto-api:1.6.0",
+            "routerfit-api"                        : "com.sjtu.yifei:auto-api:1.7.0",
             "routerfit-complier"                   : "com.sjtu.yifei:auto-complier:1.5.0",
             "routerfit-inject"                     : "com.sjtu.yifei:auto-inject:1.0.1"
 

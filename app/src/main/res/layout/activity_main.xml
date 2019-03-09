@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <variable
             name="vm"
             type="com.gzq.androidcore.vm.MainActivityModel" />
-
+        <import type="com.gzq.lib_resource.mvvm.binding.viewadapter.recyclerview.LineManagers" />
     </data>
 
     <LinearLayout
@@ -15,15 +15,13 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <Button
-            onClickCommand="@{vm.loginOnClickCommand}"
-            android:layout_width="wrap_content"
+        <android.support.v7.widget.RecyclerView
+            adapter="@{vm.adapter}"
+            itemBinding="@{vm.itemBinding}"
+            items="@{vm.menus}"
+            lineManager="@{LineManagers.horizontal()}"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{vm.userName}" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="姓名" />
+            app:layoutManager="android.support.v7.widget.LinearLayoutManager" />
     </LinearLayout>
 </layout>

@@ -1,21 +1,34 @@
 package com.gzq.androidcore.vm;
 
 
-import android.databinding.ObservableField;
+import android.databinding.ObservableArrayList;
 
-import com.gzq.lib_core.utils.ToastUtils;
+import com.gzq.androidcore.BR;
+import com.gzq.androidcore.R;
 import com.gzq.lib_resource.mvvm.base.BaseViewModel;
-import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
-import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
+
+import me.tatarka.bindingcollectionadapter2.BindingRecyclerViewAdapter;
+import me.tatarka.bindingcollectionadapter2.ItemBinding;
+import me.tatarka.bindingcollectionadapter2.OnItemBind;
 
 public class MainActivityModel extends BaseViewModel {
-    private int position = 0;
-    public ObservableField<String> userName = new ObservableField<>("按钮");
+    public ObservableArrayList<MainActivityItemModel> menus = new ObservableArrayList<>();
 
-    public BindingCommand loginOnClickCommand = new BindingCommand(new BindingAction() {
+    public MainActivityModel() {
+        menus.add(new MainActivityItemModel(this, "DataBinding RecycleView单布局"));
+        menus.add(new MainActivityItemModel(this, "DataBinding RecycleView多布局"));
+        menus.add(new MainActivityItemModel(this, "DataBinding XAOP的使用"));
+        menus.add(new MainActivityItemModel(this, "DataBinding NoDrawable的使用"));
+    }
+
+    //适配器
+    public BindingRecyclerViewAdapter<MainActivityItemModel> adapter = new BindingRecyclerViewAdapter<>();
+    public OnItemBind<MainActivityItemModel> itemBinding = new OnItemBind<MainActivityItemModel>() {
         @Override
-        public void call() {
-            ToastUtils.showShort("登录成功");
+        public void onItemBind(ItemBinding itemBinding, int position, MainActivityItemModel item) {
+            itemBinding.set(BR.vm, R.layout.item_main_menu);
         }
-    });
+    };
+
+
 }

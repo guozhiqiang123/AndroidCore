@@ -6,5 +6,5 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["routerfit-complier"]
     addComponent 'module-login-and-register'
     addComponent 'module-test2'
-
+    addComponent 'module-usage'
 }
