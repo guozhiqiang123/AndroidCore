@@ -1,20 +1,25 @@
 package com.gzq.androidcore.ui;
 
+import android.content.Intent;
+import android.os.Bundle;
+
 import com.gzq.androidcore.R;
-import com.gzq.androidcore.controller.MainController;
 import com.gzq.androidcore.databinding.ActivityMainBinding;
 import com.gzq.androidcore.vm.MainActivityModel;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
+import com.sjtu.yifei.annotation.Route;
 
-public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityModel, MainController> {
+@Route(path = "/app/main/activity")
+public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivityModel> {
+
 
     @Override
-    public void initParam() {
+    public void initParam(Intent intentArgument, Bundle bundleArgument) {
 
     }
 
     @Override
-    public int layoutId() {
+    public int layoutId(Bundle savedInstanceState) {
         return R.layout.activity_main;
     }
 
@@ -23,13 +28,6 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainActivity
         MainActivityModel mainActivityModel = new MainActivityModel();
         binding.setVm(mainActivityModel);
         return mainActivityModel;
-    }
-
-    @Override
-    public MainController setController(ActivityMainBinding binding) {
-        MainController mainController = new MainController();
-        binding.setController(mainController);
-        return mainController;
     }
 
     @Override

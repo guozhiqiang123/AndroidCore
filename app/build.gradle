@@ -3,8 +3,8 @@ apply from: rootProject.file('common-component-build.gradle')
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-
-    addComponent 'module-test1'
+    annotationProcessor rootProject.ext.dependencies["routerfit-complier"]
+    addComponent 'module-login-and-register'
     addComponent 'module-test2'
 
 }

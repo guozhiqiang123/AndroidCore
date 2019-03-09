@@ -13,6 +13,7 @@ import com.gzq.lib_resource.state_page.LoadingPage;
 import com.gzq.lib_resource.state_page.NetErrorPage;
 import com.gzq.lib_resource.utils.AppUtils;
 import com.kingja.loadsir.core.LoadSir;
+import com.sjtu.yifei.route.Routerfit;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.xuexiang.xaop.XAOP;
 
@@ -38,13 +39,15 @@ public class AppStore implements AppLifecycle {
 
     @Override
     public void onCreate(@NonNull Application application) {
+        //初始化路由框架
+        Routerfit.init(application);
+
         //初始化Fragment框架Fragmentation
         Fragmentation.builder()
                 // 显示悬浮球 ; 其他Mode:SHAKE: 摇一摇唤出   NONE：隐藏
-                .stackViewMode(Fragmentation.BUBBLE)
+                .stackViewMode(Fragmentation.NONE)
                 .debug(BuildConfig.DEBUG)
                 .install();
-
 
         //初始化Buggly
         CrashReport.UserStrategy userStrategy = new CrashReport.UserStrategy(application);

@@ -1,5 +1,5 @@
 include ':app',
-        ':module-test1',
+        ':module-login-and-register',
         ':module-test2',
         ':lib-core',
         ':lib-resource'

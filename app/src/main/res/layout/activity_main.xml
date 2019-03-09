@@ -8,9 +8,6 @@
             name="vm"
             type="com.gzq.androidcore.vm.MainActivityModel" />
 
-        <variable
-            name="controller"
-            type="com.gzq.androidcore.controller.MainController" />
     </data>
 
     <LinearLayout
@@ -19,16 +16,14 @@
         android:orientation="vertical">
 
         <Button
+            onClickCommand="@{vm.loginOnClickCommand}"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{vm.userName}"
-            onClickCommand="@{controller.loginOnClickCommand}"
-            />
+            android:text="@{vm.userName}" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            onClickCommand="@{controller.loginOnClickCommand}"
             tools:text="姓名" />
     </LinearLayout>
 </layout>
