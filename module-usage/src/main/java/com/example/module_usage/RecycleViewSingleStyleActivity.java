@@ -5,10 +5,12 @@ import android.os.Bundle;
 
 import com.example.module_usage.databinding.ActivityRecycleviewSinglestyleBinding;
 import com.example.module_usage.utils.MarkdownLoader;
+import com.example.module_usage.utils.MarkdownRenderer;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
 import com.sjtu.yifei.annotation.Route;
 
 import ru.noties.markwon.Markwon;
+
 @Route(path = "/markdown/recycleview/singlestyle")
 public class RecycleViewSingleStyleActivity extends BaseActivity<ActivityRecycleviewSinglestyleBinding, RecycleViewSingleModel> {
     @Override
@@ -34,7 +36,12 @@ public class RecycleViewSingleStyleActivity extends BaseActivity<ActivityRecycle
                 .load("RecycleView-SingleStyle.md", new MarkdownLoader.OnMarkdownTextLoaded() {
                     @Override
                     public void apply(String text) {
-                        Markwon.setText(binding.content,text);
+                        MarkdownRenderer.instance().render(RecycleViewSingleStyleActivity.this, true, null, text, new MarkdownRenderer.MarkdownReadyListener() {
+                            @Override
+                            public void onMarkdownReady(CharSequence markdown) {git
+                                Markwon.setText(binding.content, markdown);
+                            }
+                        });
                     }
                 });
     }

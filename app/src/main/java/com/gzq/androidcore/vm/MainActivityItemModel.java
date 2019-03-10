@@ -6,6 +6,8 @@ import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.RVItemBaseModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
+import com.gzq.lib_resource.router.CommonRouterApi;
+import com.sjtu.yifei.route.Routerfit;
 
 public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
     public ObservableField<String> item = new ObservableField<>();
@@ -15,10 +17,14 @@ public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
         this.item.set(string);
     }
 
+    //item的点击事件
     public BindingCommand itemClick = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ToastUtils.showShort("点击了第" + (viewModel.menus.indexOf(MainActivityItemModel.this) + 1) + "个");
+            int position = viewModel.menus.indexOf(MainActivityItemModel.this);
+            if (position==0){
+                Routerfit.register(CommonRouterApi.class).skipRecycleViewSingleStyleActivity();
+            }
         }
     });
 }
