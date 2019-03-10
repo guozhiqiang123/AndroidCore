@@ -38,7 +38,7 @@ public class RecycleViewSingleStyleActivity extends BaseActivity<ActivityRecycle
                     public void apply(String text) {
                         MarkdownRenderer.instance().render(RecycleViewSingleStyleActivity.this, true, null, text, new MarkdownRenderer.MarkdownReadyListener() {
                             @Override
-                            public void onMarkdownReady(CharSequence markdown) {git
+                            public void onMarkdownReady(CharSequence markdown) {
                                 Markwon.setText(binding.content, markdown);
                             }
                         });
