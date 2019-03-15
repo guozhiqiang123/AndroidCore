@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action_tombstone.xml",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\343c82a8315b1359327839009e9fe716\\res\\layout-v21\\notification_action_tombstone.xml"
+    },
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_action.xml",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\343c82a8315b1359327839009e9fe716\\res\\layout-v21\\notification_action.xml"
+    },
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_custom_big.xml",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\343c82a8315b1359327839009e9fe716\\res\\layout-v21\\notification_template_custom_big.xml"
+    },
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\layout-v21\\notification_template_icon_group.xml",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\support-compat-27.1.1.aar\\343c82a8315b1359327839009e9fe716\\res\\layout-v21\\notification_template_icon_group.xml"
+    }
+]

@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\qrcode_default_grid_scan_line.png",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\bga-qrcode-core-1.3.6.aar\\17166ff37cf587fad965a2f1573fd819\\res\\mipmap-xxhdpi-v4\\qrcode_default_grid_scan_line.png"
+    },
+    {
+        "merged": "C:\\Users\\gcml-gzq\\Desktop\\AndroidCore\\module-test1\\build\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi-v4\\qrcode_default_scan_line.png",
+        "source": "C:\\Users\\gcml-gzq\\.gradle\\caches\\transforms-1\\files-1.1\\bga-qrcode-core-1.3.6.aar\\17166ff37cf587fad965a2f1573fd819\\res\\mipmap-xxhdpi-v4\\qrcode_default_scan_line.png"
+    }
+]

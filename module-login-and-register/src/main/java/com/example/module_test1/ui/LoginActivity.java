@@ -2,6 +2,9 @@ package com.example.module_test1.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.ViewModel;
+import android.arch.lifecycle.ViewModelProvider;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,6 +22,7 @@ import com.example.module_test1.R;
 import com.example.module_test1.databinding.ActivityLoginBinding;
 import com.example.module_test1.utils.KeyboardWatcher;
 import com.example.module_test1.vm.LoginViewModel;
+import com.example.module_test1.vm.LoginViewModel2;
 import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
 import com.gzq.lib_resource.utils.ScreenUtils;

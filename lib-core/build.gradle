@@ -1,5 +1,5 @@
 apply from: rootProject.file('common-library-build.gradle')
-
+//apply from: '../jcenter-push.gradle' 打包上传jcenter的时候再打开
 dependencies {
     api fileTree(dir: 'libs', include: ['*.jar'])
     //support
