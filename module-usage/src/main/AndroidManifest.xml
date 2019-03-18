@@ -2,8 +2,7 @@
     package="com.example.module_usage">
 
     <application>
-        <activity
-            android:name=".RecycleViewSingleStyleActivity"
-            android:screenOrientation="portrait" />
+        <activity android:name=".ui.RecycleViewMoreStyleActivity"
+            android:screenOrientation="portrait"/>
     </application>
 </manifest>

@@ -2,6 +2,7 @@ package com.gzq.lib_resource.mvvm.binding.viewadapter.image;
 
 
 import android.databinding.BindingAdapter;
+import android.support.annotation.DrawableRes;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -21,6 +22,13 @@ public final class ViewAdapter {
                     .load(url)
                     .apply(new RequestOptions().placeholder(placeholderRes))
                     .into(imageView);
+        }
+    }
+
+    @BindingAdapter(value = {"src"}, requireAll = false)
+    public static void setImageUri(ImageView imageView, @DrawableRes int image) {
+        if (image != 0) {
+            imageView.setImageResource(image);
         }
     }
 }

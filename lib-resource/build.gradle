@@ -71,8 +71,8 @@ dependencies {
     api 'com.github.whataa:noDrawable:1.1.0'
 
     //在android上查看MarkDown的库
-    api "ru.noties:markwon:2.0.1"
-    api "ru.noties:markwon-image-loader:2.0.1" // optional
-    api "ru.noties:markwon-syntax-highlight:2.0.1" // optional
-    api "ru.noties:markwon-view:2.0.1" // optional
+//    api "ru.noties:markwon:2.0.1"
+//    api "ru.noties:markwon-image-loader:2.0.1" // optional
+//    api "ru.noties:markwon-syntax-highlight:2.0.1" // optional
+//    api "ru.noties:markwon-view:2.0.1" // optional
 }

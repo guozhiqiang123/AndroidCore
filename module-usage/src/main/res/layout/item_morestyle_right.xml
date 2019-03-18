@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="bean"
+            type="com.example.module_usage.bean.MoreStyleBean" />
+
+        <variable
+            name="itemViewModel"
+            type="com.example.module_usage.vm.RightMoreStyleItemViewModel" />
+    </data>
+
+    <LinearLayout
+        onClickCommand="@{itemViewModel.itemClick}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?selectableItemBackground"
+        android:orientation="horizontal">
+
+        <View
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{bean.title}" />
+
+        <ImageView
+            src="@{bean.rightImage}"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+</layout>

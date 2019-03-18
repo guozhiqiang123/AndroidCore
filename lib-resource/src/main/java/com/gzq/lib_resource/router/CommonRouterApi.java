@@ -8,6 +8,7 @@ public interface CommonRouterApi {
 
     @Go("/login/register/login/activity")
     boolean skipLoginActivity();
+
     @Go("/markdown/recycleview/singlestyle")
     boolean skipRecycleViewSingleStyleActivity();
 }
