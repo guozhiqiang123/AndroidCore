@@ -1,5 +1,6 @@
 package com.example.module_test1.vm;
 
+import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -16,6 +17,7 @@ import com.sjtu.yifei.route.Routerfit;
 public class LoginViewModel extends BaseViewModel {
     public ObservableField<String> editPhone = new ObservableField<>("");
     public ObservableField<String> editPassword = new ObservableField<>("");
+    public MutableLiveData<Boolean> isLoginSuccess=new MutableLiveData<>();
     /**
      * 点击返回按钮
      */
@@ -105,6 +107,7 @@ public class LoginViewModel extends BaseViewModel {
                 .postDelayed(new Runnable() {
                     @Override
                     public void run() {
+                        isLoginSuccess.postValue(true);
                         ToastUtils.showShort("登录成功");
                         hideLoadingDialog();
                         Routerfit.register(CommonRouterApi.class).skipMainActivity();

@@ -2,7 +2,11 @@
     package="com.example.module_usage">
 
     <application>
-        <activity android:name=".ui.RecycleViewMoreStyleActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ui.RecycleViewMoreStyleActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.UsageXAOPActivity"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

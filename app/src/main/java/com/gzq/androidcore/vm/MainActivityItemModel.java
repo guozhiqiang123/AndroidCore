@@ -24,11 +24,13 @@ public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
         @Override
         public void call() {
             int position = viewModel.menus.indexOf(MainActivityItemModel.this);
-            ToastUtils.showShort("点击了" + position);
             if (position == 0) {
                 ToastUtils.showShort("该页面就是");
             } else if (position == 1) {
                 Routerfit.register(AppRouterApi.class).skipRecycleViewMoreStyleActivity();
+            }else if (position==2){
+                //XAOP的使用
+                Routerfit.register(AppRouterApi.class).skipUsageXAOPActivity();
             }
         }
     });

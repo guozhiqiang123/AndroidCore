@@ -2,11 +2,13 @@ package com.example.module_test1.ui;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -27,6 +29,7 @@ import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
 import com.gzq.lib_resource.utils.ScreenUtils;
 import com.sjtu.yifei.annotation.Route;
+import com.sjtu.yifei.route.Routerfit;
 
 @Route(path = "/login/register/login/activity")
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements KeyboardWatcher.SoftKeyboardStateListener {
@@ -200,5 +203,18 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         String pwd = binding.etPassword.getText().toString();
         if (!TextUtils.isEmpty(pwd))
             binding.etPassword.setSelection(pwd.length());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //适用于startActivityForReuslt的情况
+        viewModel.isLoginSuccess.observe(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(@Nullable Boolean aBoolean) {
+                Routerfit.setResult(RESULT_OK, aBoolean);
+            }
+        });
+
     }
 }
