@@ -27,20 +27,6 @@ public abstract class LoadingObserver<T> extends BaseObserver<T> {
     }
 
     @Override
-    public void onStart() {
-        if (!NetworkUtils.isNetworkAvailable()) {
-            ToastUtils.showShort("当前无网络，请检查网络情况");
-            onComplete();
-            // 无网络执行complete后取消注册防调用onError
-            if (!isDisposed()) {
-                dispose();
-            }
-        } else {
-            showLoading();
-        }
-    }
-
-    @Override
     protected void onNetError() {
         ToastUtils.showShort("当前无网络，请检查网络情况");
     }

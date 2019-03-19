@@ -6,6 +6,7 @@ import com.gzq.lib_core.base.App;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.base.GlobalConfig;
 import com.gzq.lib_core.utils.NetworkUtils;
+import com.gzq.lib_core.utils.ThreadUtils;
 
 import java.io.IOException;
 
@@ -26,9 +27,9 @@ public class RoomCacheInterceptor implements Interceptor {
     private static final MediaType MEDIA_TYPE = MediaType.parse("application/json;charset=UTF-8");
 
     @Override
-    public Response intercept(Chain chain) throws IOException {
+    public Response intercept(final Chain chain) throws IOException {
 
-        Request request = chain.request();
+        final Request request = chain.request();
         GlobalConfig globalConfig = App.getGlobalConfig();
         String roomHeader = request.header("Room-Cache");
         long roomCacheTime = TextUtils.isEmpty(roomHeader) ? globalConfig.getGlobalCacheSecond() * 1000 : Integer.parseInt(roomHeader) * 1000;
@@ -56,7 +57,7 @@ public class RoomCacheInterceptor implements Interceptor {
                     return readRoomCacheWithRequestFailedReadCache(true, response, roomCacheTime);
                 } else {
                     //请求成功写入数据库
-                    return writeRoomCache(response);
+                    return writeRoomCache(response, true);
                 }
             }
 
@@ -67,14 +68,26 @@ public class RoomCacheInterceptor implements Interceptor {
 
             if (globalCacheMode.equals(CacheMode.FIRST_CACHE_THEN_REQUEST)) {
                 //FIRST_CACHE_THEN_REQUEST模式
-                Response response = chain.proceed(request);
-                try {
-                    Response roomResponse = readRoomCacheWithFirstCacheThenRequest(response, roomCacheTime);
-                    return roomResponse == null ?
-                            get400Response(request, roomResponse.headers(), CacheMode.FIRST_CACHE_THEN_REQUEST, "http/1.1") : roomResponse;
-                } finally {
-                    writeRoomCache(response.newBuilder().body(response.body()).build());
-                }
+                ThreadUtils.postOnBackgroundThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Response response = null;
+                        try {
+                            response = chain.proceed(request);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        } finally {
+                            try {
+                                writeRoomCache(response, false);
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+                Response roomResponse = readRoomCacheWithFirstCacheThenRequest(request, roomCacheTime);
+                return roomResponse == null ?
+                        get400Response(request, null, CacheMode.FIRST_CACHE_THEN_REQUEST, "http/1.1") : roomResponse;
             }
         } else {
             //无网模式
@@ -89,7 +102,7 @@ public class RoomCacheInterceptor implements Interceptor {
                 //REQUEST_FAILED_READ_CACHE模式
                 Response response = readRoomCacheWithRequestFailedReadCacheNotNet(request, roomCacheTime);
                 return response == null
-                        ? get400Response(request, response.headers(), CacheMode.REQUEST_FAILED_READ_CACHE, "http/1/1")
+                        ? get400Response(request, null, CacheMode.REQUEST_FAILED_READ_CACHE, "http/1/1")
                         : response;
             }
             if (globalCacheMode.equals(CacheMode.IF_NONE_CACHE_REQUEST)) {
@@ -184,8 +197,7 @@ public class RoomCacheInterceptor implements Interceptor {
         }
     }
 
-    private Response readRoomCacheWithFirstCacheThenRequest(Response response, long time) throws IOException {
-        Request request = response.request();
+    private Response readRoomCacheWithFirstCacheThenRequest(Request request, long time) throws IOException {
         String key = request.url().url().toString() + ">" + request.method();
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
@@ -207,7 +219,7 @@ public class RoomCacheInterceptor implements Interceptor {
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
         if (roomCacheEntity == null)
-            return get400Response(request, roomCacheEntity.getResponseHeaders(),
+            return get400Response(request, null,
                     CacheMode.FIRST_CACHE_THEN_REQUEST, roomCacheEntity.getProtocol());
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.FIRST_CACHE_THEN_REQUEST, time, System.currentTimeMillis());
         Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
@@ -219,28 +231,33 @@ public class RoomCacheInterceptor implements Interceptor {
         }
     }
 
-    private Response writeRoomCache(final Response response) throws IOException {
-        if (response.code() != 200) {
-            return null;
-        }
+    private Response writeRoomCache(final Response response, boolean isBuildNewResponse) throws IOException {
+        if (response == null) return response;
+        final String content = response.body().string();
         //构造缓存实体并写入数据库
-        String key = response.request().url().url().toString() + ">" + response.request().method();
-        Timber.i("RoomCache-Key(put):" + key);
-        String protocol = response.protocol().toString();
-        RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
-        RoomCacheEntity roomCacheEntity = new RoomCacheEntity();
-        roomCacheEntity.setLocalExpire(System.currentTimeMillis());
-        roomCacheEntity.setExpire(false);
-        roomCacheEntity.setKey(key);
-        String content = response.body().string();
-        roomCacheEntity.setData(content);
-        roomCacheEntity.setResponseHeaders(response.headers());
-        roomCacheEntity.setProtocol(protocol);
-        roomCacheDB.roomCacheDao().insertCache(roomCacheEntity);
-
-        return response.newBuilder()
-                .body(ResponseBody.create(MEDIA_TYPE, content))
-                .build();
+        ThreadUtils.postOnBackgroundThread(new Runnable() {
+            @Override
+            public void run() {
+                String key = response.request().url().url().toString() + ">" + response.request().method();
+                Timber.i("RoomCache-Key(put):" + key);
+                String protocol = response.protocol().toString();
+                RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
+                RoomCacheEntity roomCacheEntity = new RoomCacheEntity();
+                roomCacheEntity.setLocalExpire(System.currentTimeMillis());
+                roomCacheEntity.setExpire(false);
+                roomCacheEntity.setKey(key);
+                roomCacheEntity.setData(content);
+                roomCacheEntity.setResponseHeaders(response.headers());
+                roomCacheEntity.setProtocol(protocol);
+                roomCacheDB.roomCacheDao().insertCache(roomCacheEntity);
+            }
+        });
+        if (isBuildNewResponse) {
+            return response.newBuilder()
+                    .body(ResponseBody.create(MEDIA_TYPE, content))
+                    .build();
+        }
+        return response;
     }
 
     private Response get200RoomResponse(Request request, RoomCacheEntity roomCacheEntity, String cacheMode) throws IOException {
@@ -258,17 +275,18 @@ public class RoomCacheInterceptor implements Interceptor {
     }
 
     private Response get400Response(Request request, Headers oldHeaders, String cacheMode, String protocol) throws IOException {
-        return new Response.Builder()
+
+        Response.Builder body = new Response.Builder()
                 .code(400)
                 .request(request)
-                .headers(oldHeaders)
                 .addHeader("Room-Cache-Control", cacheMode)
                 .sentRequestAtMillis(System.currentTimeMillis())
                 .receivedResponseAtMillis(System.currentTimeMillis() + 20)
                 .protocol(Protocol.get(protocol))
                 .message("")
-                .body(ResponseBody.create(MEDIA_TYPE, ""))
-                .build();
+                .body(ResponseBody.create(MEDIA_TYPE, ""));
+        if (oldHeaders == null) return body.build();
+        return body.headers(oldHeaders).build();
     }
 
 }

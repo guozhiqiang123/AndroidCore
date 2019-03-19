@@ -6,6 +6,10 @@ import android.os.Handler;
 import android.text.TextUtils;
 
 import com.example.module_test1.R;
+import com.example.module_test1.api.LoginRegisterApi;
+import com.gzq.lib_core.base.Box;
+import com.gzq.lib_core.http.observer.CommonObserver;
+import com.gzq.lib_core.utils.RxUtils;
 import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.BaseViewModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
@@ -14,10 +18,15 @@ import com.gzq.lib_resource.mvvm.binding.command.BindingConsumer;
 import com.gzq.lib_resource.router.CommonRouterApi;
 import com.sjtu.yifei.route.Routerfit;
 
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Action;
+import io.reactivex.functions.Consumer;
+import io.reactivex.observers.DefaultObserver;
+
 public class LoginViewModel extends BaseViewModel {
     public ObservableField<String> editPhone = new ObservableField<>("");
     public ObservableField<String> editPassword = new ObservableField<>("");
-    public MutableLiveData<Boolean> isLoginSuccess=new MutableLiveData<>();
+    public MutableLiveData<Boolean> isLoginSuccess = new MutableLiveData<>();
     /**
      * 点击返回按钮
      */
@@ -102,16 +111,28 @@ public class LoginViewModel extends BaseViewModel {
     });
 
     private void login(String phone, String password) {
-        showLoadingDialog();
-        new Handler()
-                .postDelayed(new Runnable() {
+        Box.getRetrofit(LoginRegisterApi.class)
+                .login(phone, password)
+                .compose(RxUtils.httpResponseTransformer())
+                .subscribe(new CommonObserver<Object>() {
                     @Override
-                    public void run() {
+                    protected void onStart() {
+                        super.onStart();
+                        showLoadingDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        super.onComplete();
+                        hideLoadingDialog();
+                    }
+
+                    @Override
+                    public void onNext(Object o) {
                         isLoginSuccess.postValue(true);
                         ToastUtils.showShort("登录成功");
-                        hideLoadingDialog();
                         Routerfit.register(CommonRouterApi.class).skipMainActivity();
                     }
-                }, 3000);
+                });
     }
 }

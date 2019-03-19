@@ -24,8 +24,6 @@ import com.example.module_test1.R;
 import com.example.module_test1.databinding.ActivityLoginBinding;
 import com.example.module_test1.utils.KeyboardWatcher;
 import com.example.module_test1.vm.LoginViewModel;
-import com.example.module_test1.vm.LoginViewModel2;
-import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.BaseActivity;
 import com.gzq.lib_resource.utils.ScreenUtils;
 import com.sjtu.yifei.annotation.Route;

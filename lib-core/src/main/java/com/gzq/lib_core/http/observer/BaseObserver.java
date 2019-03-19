@@ -1,17 +1,20 @@
 package com.gzq.lib_core.http.observer;
 
+import android.support.annotation.CallSuper;
 import android.util.Log;
 
 import com.gzq.lib_core.http.exception.ApiException;
 import com.gzq.lib_core.http.exception.ErrorType;
 import com.gzq.lib_core.utils.NetworkUtils;
 
+import io.reactivex.observers.DefaultObserver;
 import io.reactivex.observers.DisposableObserver;
 
 
-public abstract class BaseObserver<T> extends DisposableObserver<T> {
+public abstract class BaseObserver<T> extends DefaultObserver<T> {
     private static final String TAG = "BaseObserver";
 
+    @CallSuper
     @Override
     protected void onStart() {
         super.onStart();
@@ -20,9 +23,8 @@ public abstract class BaseObserver<T> extends DisposableObserver<T> {
             onNetError();
             onComplete();
             // 无网络执行complete后取消注册防调用onError
-            if (!isDisposed()) {
-                dispose();
-            }
+            //但是会导致doOnTerminate和doAfterTerminate都不会执行
+            cancel();
         } else {
             Log.d(TAG, "network available");
         }
