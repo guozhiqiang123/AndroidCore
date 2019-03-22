@@ -13,12 +13,30 @@ import android.view.ViewGroup;
 import me.yokeyword.fragmentation.SupportFragment;
 
 
-public abstract class BaseFragment<V extends IView, P extends IPresenter>
+public abstract class BaseFragment<P extends IPresenter>
         extends SupportFragment implements IView {
-    protected View mView;
-    protected Activity mActivity;
-    protected Context mContext;
-    protected P mPresenter;
+    private View mView;
+    private Activity mActivity;
+    private Context mContext;
+    private P mPresenter;
+
+    public P getP() {
+        return mPresenter;
+    }
+    protected void setP(P presenter){
+        mPresenter=presenter;
+    }
+    public View getRootView() {
+        return mView;
+    }
+
+    public Activity getmActivity() {
+        return mActivity;
+    }
+
+    public Context getmContext() {
+        return mContext;
+    }
 
     @Override
     public void onAttach(Activity activity) {
@@ -47,8 +65,8 @@ public abstract class BaseFragment<V extends IView, P extends IPresenter>
                 getLifecycle().addObserver(mPresenter);
             }
             initView(mView);
-
         }
+        afterInitView();
         return mView;
     }
 
@@ -77,5 +95,7 @@ public abstract class BaseFragment<V extends IView, P extends IPresenter>
     public abstract void initView(View view);
 
     public abstract P obtainPresenter();
+
+    public abstract void afterInitView();
 
 }

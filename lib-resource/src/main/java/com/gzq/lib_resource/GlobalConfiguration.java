@@ -49,7 +49,7 @@ public class GlobalConfiguration implements GlobalModule {
                 //设置对副单位的支持
                 .autoSize(false, false, Subunits.PT)
                 //配置是否Room数据库进行网络请求的缓存
-                .roomCache(true, CacheMode.FIRST_CACHE_THEN_REQUEST, 60)
+                .roomCache(true, CacheMode.IF_NONE_CACHE_REQUEST, 30)
                 //OkHttpClient的拓展配置
                 .okhttpConfiguration(new OkhttpConfig() {
                     @Override

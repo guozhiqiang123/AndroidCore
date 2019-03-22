@@ -5,6 +5,7 @@ import android.view.View;
 
 import com.gzq.lib_core.utils.NetworkUtils;
 import com.gzq.lib_resource.mvp.base.BaseActivity;
+import com.gzq.lib_resource.mvp.base.IPresenter;
 import com.gzq.lib_resource.state_page.EmptyPage;
 import com.gzq.lib_resource.state_page.ErrorPage;
 import com.gzq.lib_resource.state_page.LoadingPage;
@@ -21,8 +22,12 @@ import com.kingja.loadsir.core.Transport;
  * created by: gzq
  * description: 二次封装的带状态页面的BaseActivity
  */
-public abstract class StateBaseActivity extends BaseActivity {
-    protected LoadService mStateView;
+public abstract class StateBaseActivity<P extends IPresenter>  extends BaseActivity {
+    private LoadService mStateView;
+
+    public P getP() {
+        return (P) super.getP();
+    }
 
     @Override
     protected void initStateView() {

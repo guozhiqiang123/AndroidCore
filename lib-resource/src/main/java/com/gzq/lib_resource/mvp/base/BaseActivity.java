@@ -6,11 +6,15 @@ import android.support.annotation.Nullable;
 import android.view.View;
 
 import me.yokeyword.fragmentation.SupportActivity;
+import retrofit2.http.PUT;
 
-public abstract class BaseActivity<V extends IView, P extends IPresenter>
+public abstract class BaseActivity<P extends IPresenter>
         extends SupportActivity implements IView {
-    protected P mPresenter;
-    protected View mView;
+    private P mPresenter;
+
+    public P getP() {
+        return mPresenter;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -27,11 +31,12 @@ public abstract class BaseActivity<V extends IView, P extends IPresenter>
         initParams(getIntent(), getIntent().getExtras());
         //初始化Presenter
         mPresenter = obtainPresenter();
-        if (mPresenter!=null){
+        if (mPresenter != null) {
             getLifecycle().addObserver(mPresenter);
         }
         //初始化控件id
         initView();
+        afterInitView();
     }
 
     /**
@@ -67,6 +72,8 @@ public abstract class BaseActivity<V extends IView, P extends IPresenter>
      * @return
      */
     public abstract P obtainPresenter();
+
+    public abstract void afterInitView();
 
     @Override
     protected void onDestroy() {

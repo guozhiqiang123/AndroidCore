@@ -148,6 +148,7 @@ public class RoomCacheInterceptor implements Interceptor {
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
+        roomCacheDB.close();
         if (roomCacheEntity == null)
             return response;
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.REQUEST_FAILED_READ_CACHE, time, System.currentTimeMillis());
@@ -167,6 +168,7 @@ public class RoomCacheInterceptor implements Interceptor {
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
+        roomCacheDB.close();
         if (roomCacheEntity == null)
             return null;
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.REQUEST_FAILED_READ_CACHE, time, System.currentTimeMillis());
@@ -183,13 +185,14 @@ public class RoomCacheInterceptor implements Interceptor {
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
+        roomCacheDB.close();
         if (roomCacheEntity == null)
-            return chain.proceed(request);
+            return writeRoomCache(chain.proceed(request), true);
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.IF_NONE_CACHE_REQUEST, time, System.currentTimeMillis());
         Timber.i(key + ">>>>>isExpire(" + isExpire + ")");
         if (isExpire) {
             if (isNetOk)
-                return chain.proceed(request);
+                return writeRoomCache(chain.proceed(request), true);
             return get400Response(request, roomCacheEntity.getResponseHeaders(),
                     CacheMode.IF_NONE_CACHE_REQUEST, roomCacheEntity.getProtocol());
         } else {
@@ -202,6 +205,7 @@ public class RoomCacheInterceptor implements Interceptor {
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
+        roomCacheDB.close();
         if (roomCacheEntity == null)
             return null;
         boolean isExpire = roomCacheEntity.checkExpire(CacheMode.FIRST_CACHE_THEN_REQUEST, time, System.currentTimeMillis());
@@ -218,6 +222,7 @@ public class RoomCacheInterceptor implements Interceptor {
         Timber.i("RoomCache-Key(get):" + key);
         RoomCacheDB roomCacheDB = Box.getCacheRoomDataBase(RoomCacheDB.class);
         RoomCacheEntity roomCacheEntity = roomCacheDB.roomCacheDao().queryByKey(key);
+        roomCacheDB.close();
         if (roomCacheEntity == null)
             return get400Response(request, null,
                     CacheMode.FIRST_CACHE_THEN_REQUEST, roomCacheEntity.getProtocol());
@@ -250,6 +255,7 @@ public class RoomCacheInterceptor implements Interceptor {
                 roomCacheEntity.setResponseHeaders(response.headers());
                 roomCacheEntity.setProtocol(protocol);
                 roomCacheDB.roomCacheDao().insertCache(roomCacheEntity);
+                roomCacheDB.close();
             }
         });
         if (isBuildNewResponse) {

@@ -9,9 +9,17 @@ import android.support.annotation.CallSuper;
 
 public abstract class BasePresenter<V extends IView>
         implements IPresenter {
-    protected V mView;
+    private V mView;
 
-    protected LifecycleOwner mLifecycleOwner;
+    private LifecycleOwner mLifecycleOwner;
+
+    public V getV() {
+        return mView;
+    }
+
+    public LifecycleOwner getLife() {
+        return mLifecycleOwner;
+    }
 
     public BasePresenter(V view) {
         this.mView = view;

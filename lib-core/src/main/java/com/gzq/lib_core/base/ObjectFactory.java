@@ -78,11 +78,12 @@ final class ObjectFactory {
         if (okhttpConfig != null) {
             okhttpConfig.okhttp(context, okhttpBuilder);
         }
-        if (globalConfig.isRoomCache()) {
-            okhttpBuilder.addInterceptor(new RoomCacheInterceptor());
-        }
         if (BuildConfig.DEBUG) {
             okhttpBuilder.addInterceptor(getLoggingInterceptor());
+        }
+
+        if (globalConfig.isRoomCache()) {
+            okhttpBuilder.addInterceptor(new RoomCacheInterceptor());
         }
         //添加动态变更BaseUrl的能力
         RetrofitUrlManager.getInstance().with(okhttpBuilder).build();

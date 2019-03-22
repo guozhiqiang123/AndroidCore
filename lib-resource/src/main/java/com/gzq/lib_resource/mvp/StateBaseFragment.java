@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.gzq.lib_core.utils.NetworkUtils;
 import com.gzq.lib_resource.mvp.base.BaseFragment;
+import com.gzq.lib_resource.mvp.base.IPresenter;
 import com.gzq.lib_resource.state_page.EmptyPage;
 import com.gzq.lib_resource.state_page.ErrorPage;
 import com.gzq.lib_resource.state_page.LoadingPage;
@@ -27,8 +28,14 @@ import com.kingja.loadsir.core.Transport;
  * created by: gzq
  * description: 二次封装的带状态页面的BaseFragment
  */
-public abstract class StateBaseFragment extends BaseFragment {
+public abstract class StateBaseFragment<P extends IPresenter> extends BaseFragment {
     protected LoadService mStateView;
+    private View mView;
+
+    @Override
+    public P getP() {
+        return (P) super.getP();
+    }
 
     @Nullable
     @Override
@@ -48,16 +55,16 @@ public abstract class StateBaseFragment extends BaseFragment {
             //初始化基本参数
             initParams(getArguments());
             //初始化Presenter
-            mPresenter = obtainPresenter();
-            if (mPresenter == null || !(mPresenter instanceof LifecycleObserver)) {
-                throw new IllegalArgumentException("obtain a wrong presenter");
+            setP(obtainPresenter());
+            if (getP() != null) {
+                getLifecycle().addObserver(getP());
             }
-            getLifecycle().addObserver(mPresenter);
             //初始化控件id
             initView(mView);
+            afterInitView();
         }
         //判断网络是否可用
-        if (!NetworkUtils.isAvailable()){
+        if (!NetworkUtils.isAvailable()) {
             showNetError();
         }
         return mStateView.getLoadLayout();
@@ -87,7 +94,7 @@ public abstract class StateBaseFragment extends BaseFragment {
         }).setCallBack(NetErrorPage.class, new Transport() {
             @Override
             public void order(Context context, View view) {
-                customNetErrorPage(context,view);
+                customNetErrorPage(context, view);
             }
         });
     }
@@ -107,7 +114,8 @@ public abstract class StateBaseFragment extends BaseFragment {
     protected void customLoadingPage(Context context, View view) {
 
     }
-    protected void customNetErrorPage(Context context, View view){
+
+    protected void customNetErrorPage(Context context, View view) {
 
     }
 
@@ -143,6 +151,7 @@ public abstract class StateBaseFragment extends BaseFragment {
             mStateView.showSuccess();
         }
     }
+
     public void showNetError() {
         if (mStateView != null) {
             mStateView.showCallback(NetErrorPage.class);
