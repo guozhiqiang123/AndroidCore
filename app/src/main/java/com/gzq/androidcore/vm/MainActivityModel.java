@@ -20,6 +20,7 @@ public class MainActivityModel extends BaseViewModel {
         menus.add(new MainActivityItemModel(this, new MainMenuBean("DataBinding RecycleView多布局", R.drawable.ic_baomihua)));
         menus.add(new MainActivityItemModel(this, new MainMenuBean("DataBinding XAOP的使用", R.drawable.ic_dangao)));
         menus.add(new MainActivityItemModel(this, new MainMenuBean("DataBinding NoDrawable的使用", R.drawable.ic_shengnvguo)));
+        menus.add(new MainActivityItemModel(this, new MainMenuBean("ARouterfit 登录拦截器", R.drawable.ic_shengnvguo)));
     }
 
     //适配器

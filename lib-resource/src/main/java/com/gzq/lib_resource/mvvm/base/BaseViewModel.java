@@ -16,16 +16,16 @@ import com.gzq.lib_resource.dialog.FDialog;
 /**
  * Created by goldze on 2017/6/15.
  */
-public abstract class BaseViewModel implements IBaseViewModel {
-    protected FragmentActivity activity;
+public abstract class BaseViewModel<V extends FragmentActivity> implements IBaseViewModel {
+    protected V activity;
     private FDialog fd;
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
         if (owner instanceof SupportActivity) {
-            activity = (FragmentActivity) owner;
+            activity = (V) owner;
         } else if (owner instanceof Fragment) {
-            activity = ((Fragment) owner).getActivity();
+            activity = (V) ((Fragment) owner).getActivity();
         }
     }
 

@@ -12,7 +12,9 @@ public interface CommonRouterApi {
     boolean skipLoginActivity();
 
     @Go("/login/register/login/activity")
-    boolean skipLoginActivity(@Extra ActivityCallback callback);
+    boolean skipLoginActivity(
+            @Extra("isStartForResult") boolean isForResult,
+            @Extra ActivityCallback callback);
 
     @Go("/markdown/recycleview/singlestyle")
     boolean skipRecycleViewSingleStyleActivity();

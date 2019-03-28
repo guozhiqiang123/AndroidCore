@@ -37,10 +37,11 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
     private int screenH;
     private float scale = 0.8f; //logo缩放比例
     private boolean flag = false;
+    private boolean isStartForResult;
 
     @Override
     public void initParam(Intent intentArgument, Bundle bundleArgument) {
-
+        isStartForResult = intentArgument.getBooleanExtra("isStartForResult", false);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public LoginViewModel setViewModel(ActivityLoginBinding binding) {
-        LoginViewModel loginViewModel = new LoginViewModel();
+        LoginViewModel loginViewModel = new LoginViewModel(isStartForResult);
         binding.setVm(loginViewModel);
         return loginViewModel;
     }
@@ -203,16 +204,4 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
             binding.etPassword.setSelection(pwd.length());
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
-        //适用于startActivityForReuslt的情况
-        viewModel.isLoginSuccess.observe(this, new Observer<Boolean>() {
-            @Override
-            public void onChanged(@Nullable Boolean aBoolean) {
-                Routerfit.setResult(RESULT_OK, aBoolean);
-            }
-        });
-
-    }
 }

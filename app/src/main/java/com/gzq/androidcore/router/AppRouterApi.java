@@ -8,4 +8,7 @@ public interface AppRouterApi {
 
     @Go("/usage/xaop/activity")
     boolean skipUsageXAOPActivity();
+
+    @Go("/usage/test/interceptor/activity")
+    boolean skipTestInterceptorActivity();
 }

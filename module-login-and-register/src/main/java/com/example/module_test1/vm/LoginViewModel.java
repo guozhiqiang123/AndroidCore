@@ -1,5 +1,6 @@
 package com.example.module_test1.vm;
 
+import android.app.Activity;
 import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.text.TextUtils;
 
 import com.example.module_test1.R;
 import com.example.module_test1.api.LoginRegisterApi;
+import com.example.module_test1.ui.LoginActivity;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.http.observer.CommonObserver;
 import com.gzq.lib_core.utils.RxUtils;
@@ -23,10 +25,15 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DefaultObserver;
 
-public class LoginViewModel extends BaseViewModel {
+public class LoginViewModel extends BaseViewModel<LoginActivity> {
+    private boolean isStartForResult;
     public ObservableField<String> editPhone = new ObservableField<>("");
     public ObservableField<String> editPassword = new ObservableField<>("");
-    public MutableLiveData<Boolean> isLoginSuccess = new MutableLiveData<>();
+
+    public LoginViewModel(boolean isStartForResult) {
+        this.isStartForResult = isStartForResult;
+    }
+
     /**
      * 点击返回按钮
      */
@@ -129,9 +136,14 @@ public class LoginViewModel extends BaseViewModel {
 
                     @Override
                     public void onNext(Object o) {
-                        isLoginSuccess.postValue(true);
                         ToastUtils.showShort("登录成功");
-                        Routerfit.register(CommonRouterApi.class).skipMainActivity();
+                        Box.getSessionManager().setUser(o);
+                        if (!isStartForResult) {
+                            Routerfit.register(CommonRouterApi.class).skipMainActivity();
+                        } else {
+                            Routerfit.setResult(Activity.RESULT_OK, true);
+                            activity.finish();
+                        }
                     }
                 });
     }

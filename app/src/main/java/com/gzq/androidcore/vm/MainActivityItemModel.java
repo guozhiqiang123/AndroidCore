@@ -4,6 +4,7 @@ import android.databinding.ObservableField;
 
 import com.gzq.androidcore.bean.MainMenuBean;
 import com.gzq.androidcore.router.AppRouterApi;
+import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.RVItemBaseModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
@@ -28,9 +29,14 @@ public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
                 ToastUtils.showShort("该页面就是");
             } else if (position == 1) {
                 Routerfit.register(AppRouterApi.class).skipRecycleViewMoreStyleActivity();
-            }else if (position==2){
+            } else if (position == 2) {
                 //XAOP的使用
                 Routerfit.register(AppRouterApi.class).skipUsageXAOPActivity();
+            } else if (position == 3) {
+
+            } else if (position == 4) {
+                Box.getSessionManager().clear();
+                Routerfit.register(AppRouterApi.class).skipTestInterceptorActivity();
             }
         }
     });
