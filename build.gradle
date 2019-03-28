@@ -25,6 +25,12 @@ allprojects {
         jcenter()
         maven { url 'https://jitpack.io' }
     }
+
+    // 解决 Execution failed for task':[YourLibraryName]:mavenAndroidJavadocs'.
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
+    }
 }
 
 task clean(type: Delete) {

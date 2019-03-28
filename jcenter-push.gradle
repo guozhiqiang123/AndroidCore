@@ -5,7 +5,7 @@ publish {
     repoName = "maven"
     groupId = 'com.gzq.library'//jcenter上的路径
     artifactId = 'core'//上传到 Jcenter 的项目名称
-    publishVersion = '1.0.0'//版本号
+    publishVersion = '1.0.1'//版本号
     bintrayUser = "guozhiqiang9301"
     bintrayKey = '40985236e947fbb3da3b1dab87243893ae042414'
     desc = 'lib for Android'//选填
