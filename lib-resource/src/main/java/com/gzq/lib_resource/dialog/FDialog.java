@@ -29,7 +29,7 @@ public class FDialog extends DialogFragment {
     private static final String ANIM = "anim_style";
     private static final String LAYOUT = "layout_id";
     private static final String CONVERT_LISTENER = "convert_listener";
-    private int margin=200;//左右边距
+    private int margin = 200;//左右边距
     private int width;//宽度
     private int height;//高度
     private float dimAmount = 0.5f;//灰度深浅
@@ -42,7 +42,6 @@ public class FDialog extends DialogFragment {
     @LayoutRes
     private int layoutId;
     private ViewConvertListener convertListener;
-    private FragmentManager manager;
     private ConfirmCancelDialog confirmCancelDialog;
 
 
@@ -153,11 +152,6 @@ public class FDialog extends DialogFragment {
         return this;
     }
 
-    public FDialog setSupportFM(FragmentManager manager) {
-        this.manager = manager;
-        return this;
-    }
-
     public FDialog setTheme(@StyleRes int theme) {
         this.theme = theme;
         return this;
@@ -203,11 +197,9 @@ public class FDialog extends DialogFragment {
         return this;
     }
 
-    public FDialog show() {
-        if (manager == null) {
-            throw new IllegalArgumentException("please set SupportFragmentManager");
-        }
-        FragmentTransaction ft = manager.beginTransaction();
+    public FDialog show(FragmentManager fm) {
+
+        FragmentTransaction ft = fm.beginTransaction();
         if (this.isAdded()) {
             ft.remove(this).commit();
         }

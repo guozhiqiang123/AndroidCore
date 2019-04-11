@@ -28,7 +28,9 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     protected void onDestroy() {
         super.onDestroy();
         //解除ViewModel生命周期感应
-        getLifecycle().removeObserver(viewModel);
+        if (viewModel != null) {
+            getLifecycle().removeObserver(viewModel);
+        }
         if (binding != null) {
             binding.unbind();
         }
@@ -50,6 +52,7 @@ public abstract class BaseActivity<V extends ViewDataBinding, VM extends BaseVie
     public abstract int layoutId(Bundle savedInstanceState);
 
     public abstract VM setViewModel(V binding);
+
     /**
      * 如果不止ViewModel和Controller这个两variable设置到binding中
      *

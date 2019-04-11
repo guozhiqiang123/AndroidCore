@@ -11,16 +11,21 @@ public interface Constants {
      * {@link com.gzq.lib_core.session.PreferencesSessionManager}
      * {@link com.gzq.lib_core.session.MmkvSessionManager}
      */
-    String KEY_SESSION_USER="session_user";
+    String KEY_SESSION_USER = "session_user";
     /**
      * 存放session token信息的key
-     *  {@link com.gzq.lib_core.session.PreferencesSessionManager}
+     * {@link com.gzq.lib_core.session.PreferencesSessionManager}
      * {@link com.gzq.lib_core.session.MmkvSessionManager}
      */
-    String KEY_SESSION_TOKEN="session_token";
+    String KEY_SESSION_TOKEN = "session_token";
     /**
      * room数据库默认的名字
      * {@link com.gzq.lib_core.base.Box#getRoomDataBase(Class)}
      */
-    String NAME_ROOM_DATABASE="EasyDB";
+    String NAME_ROOM_DATABASE = "EasyDB";
+
+    /**
+     * 默认缓存数据库名字
+     */
+    String ROOM_CACHE_NAME = "Room-Cache-Database";
 }

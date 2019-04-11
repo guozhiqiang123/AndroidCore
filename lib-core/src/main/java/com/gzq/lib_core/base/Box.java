@@ -63,14 +63,14 @@ public class Box implements AppLifecycle {
      */
     public static Gson getGson() {
         if (gson == null) {
-            gson = ObjectFactory.getGson(mApplication, App.getGlobalConfig());
+            gson = ObjectFactory.INSTANCE.getGson(mApplication, App.getGlobalConfig());
         }
         return gson;
     }
 
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
-            okHttpClient = ObjectFactory.getOkHttpClient(mApplication, App.getGlobalConfig());
+            okHttpClient = ObjectFactory.INSTANCE.getOkHttpClient(mApplication, App.getGlobalConfig());
         }
         return okHttpClient;
     }
@@ -82,7 +82,7 @@ public class Box implements AppLifecycle {
      */
     public static <T> T getRetrofit(Class<T> serviceClazz) {
         if (retrofit == null) {
-            retrofit = ObjectFactory.getRetrofit(mApplication, App.getGlobalConfig());
+            retrofit = ObjectFactory.INSTANCE.getRetrofit(mApplication, App.getGlobalConfig());
         }
         return retrofit.create(serviceClazz);
     }
@@ -95,7 +95,7 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static <DB extends RoomDatabase> DB getRoomDataBase(Class<? extends RoomDatabase> databaseClazz) {
-        return ObjectFactory.getRoomDatabase(mApplication, databaseClazz, App.getGlobalConfig());
+        return ObjectFactory.INSTANCE.getRoomDatabase(mApplication, databaseClazz, App.getGlobalConfig());
     }
 
     /**
@@ -106,7 +106,7 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static <DB extends RoomDatabase> DB getCacheRoomDataBase(Class<? extends RoomDatabase> databaseClazz) {
-        return ObjectFactory.getCacheRoomDatabase(mApplication, databaseClazz);
+        return ObjectFactory.INSTANCE.getCacheRoomDatabase(mApplication, databaseClazz);
     }
 
     /**
@@ -151,9 +151,5 @@ public class Box implements AppLifecycle {
             handler = new Handler(looper);
         }
         return handler;
-    }
-
-    public static void test() {
-        ObjectFactory.getGson(mApplication, App.getGlobalConfig());
     }
 }

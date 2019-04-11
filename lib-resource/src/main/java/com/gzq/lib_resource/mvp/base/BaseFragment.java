@@ -23,9 +23,11 @@ public abstract class BaseFragment<P extends IPresenter>
     public P getP() {
         return mPresenter;
     }
-    protected void setP(P presenter){
-        mPresenter=presenter;
+
+    protected void setP(P presenter) {
+        mPresenter = presenter;
     }
+
     public View getRootView() {
         return mView;
     }

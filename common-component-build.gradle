@@ -4,6 +4,7 @@ apply from: rootProject.file('auto-dependences.gradle')
 apply plugin: 'com.sjtu.yifei.autoinject'
 //XAOP
 apply plugin: 'com.xuexiang.xaop'
+apply plugin: 'kotlin-android'
 
 //该文件是公共配置，除了公用库不能引用外，业务组件均可引用
 //为什么公用库不能使用该插件？====>因为公用库会在本文件的dependencies中添加，如果公用库再使用该插件，岂不是循环依赖了？
@@ -21,11 +22,11 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         ndk {
-            abiFilters "arm64-v8a","x86"
+            abiFilters "arm64-v8a", "x86"
         }
     }
 
-    //在local.properties中配置自己项目的签名文件
+//    //在local.properties中配置自己项目的签名文件
 //    signingConfigs {
 //        debug {
 //            storeFile file(RELEASE_STORE_FILE)
@@ -86,6 +87,8 @@ repositories {
     }
 }
 dependencies {
+    //kotlin
+    api "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     //路由框架ARetrofit（https://github.com/yifei8/ARetrofit）
     annotationProcessor rootProject.ext.dependencies["routerfit-complier"]
     //为每个组件引用公共模块
