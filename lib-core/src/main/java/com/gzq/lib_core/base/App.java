@@ -53,15 +53,15 @@ public class App extends Application {
         initGlobalConfig();
 
         //初始化屏幕适配器
-        ObjectFactory.initAutoSize(getGlobalConfig());
+        ObjectFactory.INSTANCE.initAutoSize(getGlobalConfig());
         //初始化LeakCanary
         LeakCanaryUtil.getInstance().init(this);
         //初始化KVUtil
         KVUtils.init(this);
         //用户信息管理器
-        ObjectFactory.initSessionManager(this, getGlobalConfig());
+        ObjectFactory.INSTANCE.initSessionManager(this, getGlobalConfig());
         //崩溃拦截配置
-        ObjectFactory.initCrashManager(this, getGlobalConfig());
+        ObjectFactory.INSTANCE.initCrashManager(this, getGlobalConfig());
 
         appLifecycle.onCreate(instance);
         Timber.tag(TAG).i("onCreate");
@@ -86,7 +86,7 @@ public class App extends Application {
     public void onTerminate() {
         super.onTerminate();
         appLifecycle.onTerminate(instance);
-        ObjectFactory.clear();
+        ObjectFactory.INSTANCE.clear();
         appLifecycle = null;
         instance = null;
         globalConfig = null;

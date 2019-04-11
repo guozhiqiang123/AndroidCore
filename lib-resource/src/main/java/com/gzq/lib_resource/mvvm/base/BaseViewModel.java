@@ -53,13 +53,12 @@ public abstract class BaseViewModel<V extends FragmentActivity> implements IBase
     public void showLoadingDialog() {
         if (fd == null) {
             fd = FDialog.build()
-                    .setSupportFM(activity.getSupportFragmentManager())
                     .setLayoutId(R.layout.dialog_layout_loading)
                     .setOutCancel(false)
                     .setDimAmount(0)
-                    .show();
+                    .show(activity.getSupportFragmentManager());
         } else {
-            fd.show();
+            fd.show(activity.getSupportFragmentManager());
         }
     }
 

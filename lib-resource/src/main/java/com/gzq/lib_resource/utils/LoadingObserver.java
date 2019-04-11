@@ -49,10 +49,9 @@ public abstract class LoadingObserver<T> extends BaseObserver<T> {
     private void showLoading() {
         if (fragmentManager != null) {
             fd = FDialog.build()
-                    .setSupportFM(fragmentManager)
                     .setLayoutId(R.layout.dialog_layout_loading)
                     .setOutCancel(false)
-                    .show();
+                    .show(fragmentManager);
         }
     }
 

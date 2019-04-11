@@ -3,9 +3,9 @@ package com.gzq.lib_core.base;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
+import android.databinding.ObservableArrayMap;
 import android.text.TextUtils;
+import android.util.ArrayMap;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -40,22 +40,23 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import timber.log.Timber;
 
-final class ObjectFactory {
+enum ObjectFactory {
+    INSTANCE;
     /**
      * 默认超时时间,单位秒
      */
     private static final int DEFAULT_TIMEOUT = 10;
-    private static GsonBuilder gsonBuilder = new GsonBuilder();
-    private static OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
-    private static Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
-    private static Map<String, RoomDatabase.Builder> roomBuilders;
-    private static Map<String, RoomDatabase.Builder> roomCacheBuilders;
-    private static SessionConfig.Builder sessionBuilder = new SessionConfig.Builder();
-    private static CaocConfig.Builder crashBuilder = CaocConfig.Builder.create();
-    private final static String ROOM_CACHE_NAME = "Room-Cache-Database";
+
+    private GsonBuilder gsonBuilder = new GsonBuilder();
+    private OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
+    private Retrofit.Builder retrofitBuilder = new Retrofit.Builder();
+    private ArrayMap<String, RoomDatabase.Builder> roomBuilders = new ArrayMap<>();
+    private ArrayMap<String, RoomDatabase.Builder> roomCacheBuilders = new ArrayMap<>();
+    private SessionConfig.Builder sessionBuilder = new SessionConfig.Builder();
+    private CaocConfig.Builder crashBuilder = CaocConfig.Builder.create();
 
 
-    public static Gson getGson(Context context, GlobalConfig globalConfig) {
+    public Gson getGson(Context context, GlobalConfig globalConfig) {
         GsonConfig gsonConfig = globalConfig.getGsonConfig();
         if (gsonConfig != null) {
             gsonConfig.gson(context, gsonBuilder);
@@ -68,7 +69,7 @@ final class ObjectFactory {
      * @param globalConfig
      * @return
      */
-    public static OkHttpClient getOkHttpClient(Context context, GlobalConfig globalConfig) {
+    public OkHttpClient getOkHttpClient(Context context, GlobalConfig globalConfig) {
         okhttpBuilder
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
@@ -96,14 +97,13 @@ final class ObjectFactory {
      * @param globalConfig
      * @return {@see https://blog.csdn.net/K_Hello/article/details/81318856}
      */
-    public static Retrofit getRetrofit(Context context, GlobalConfig globalConfig) {
+    public Retrofit getRetrofit(Context context, GlobalConfig globalConfig) {
         String baseUrl = globalConfig.getBaseUrl();
         if (TextUtils.isEmpty(baseUrl)) {
             throw new NullPointerException("baseUrl is null");
         }
         retrofitBuilder.baseUrl(baseUrl);
         OkHttpClient okHttpClient = getOkHttpClient(context, globalConfig);
-        Timber.i("OkHttpClient---->" + okHttpClient);
         retrofitBuilder.client(okHttpClient);
         RetrofitConfig retrofitConfig = globalConfig.getRetrofitConfig();
         if (retrofitConfig != null) {
@@ -111,7 +111,6 @@ final class ObjectFactory {
         }
         retrofitBuilder.addCallAdapterFactory(RxJava2CallAdapterFactory.create());
         retrofitBuilder.addConverterFactory(GsonConverterFactory.create());
-
         return retrofitBuilder.build();
     }
 
@@ -124,23 +123,18 @@ final class ObjectFactory {
      * @param <DB>
      * @return
      */
-    public static <DB extends RoomDatabase> DB getRoomDatabase(Context context, Class clzz, GlobalConfig globalConfig) {
+    public <DB extends RoomDatabase> DB getRoomDatabase(Context context, Class clzz, GlobalConfig globalConfig) {
         RoomDatabaseConfig roomDatabaseConfig = globalConfig.getRoomDatabaseConfig();
         String roomName = globalConfig.getRoomName();
         if (TextUtils.isEmpty(roomName)) {
             roomName = Constants.NAME_ROOM_DATABASE;
         }
-        if (roomBuilders == null) {
-            roomBuilders = new HashMap<>();
-        }
-        String keyRoomBuilder = clzz.getSimpleName() + "_" + roomName;
+        String keyRoomBuilder = clzz.getSimpleName() + "-" + roomName;
         if (roomBuilders.containsKey(keyRoomBuilder)) {
             return (DB) roomBuilders.get(keyRoomBuilder).build();
         }
+
         RoomDatabase.Builder roomBuilder = Room.databaseBuilder(context, clzz, roomName);
-        if (roomBuilder == null) {
-            throw new NullPointerException("create room fail");
-        }
         roomBuilders.put(keyRoomBuilder, roomBuilder);
 
         if (roomDatabaseConfig != null) {
@@ -156,23 +150,19 @@ final class ObjectFactory {
      * @param <DB>
      * @return
      */
-    public static <DB extends RoomDatabase> DB getCacheRoomDatabase(Context context, Class clazz) {
-        if (roomCacheBuilders == null) {
-            roomCacheBuilders = new HashMap<>();
-        }
-        String keyRoomBuilder = clazz.getSimpleName() + "-" + ROOM_CACHE_NAME;
+    public <DB extends RoomDatabase> DB getCacheRoomDatabase(Context context, Class clazz) {
+        String keyRoomBuilder = clazz.getSimpleName() + "-" + Constants.ROOM_CACHE_NAME;
         if (roomCacheBuilders.containsKey(keyRoomBuilder)) {
             return (DB) roomCacheBuilders.get(keyRoomBuilder).build();
         }
-        RoomDatabase.Builder roomBuilder = Room.databaseBuilder(context, clazz, ROOM_CACHE_NAME);
-        if (roomBuilder == null) {
-            throw new NullPointerException("create room fail");
-        }
+
+        RoomDatabase.Builder roomBuilder = Room.databaseBuilder(context, clazz, Constants.ROOM_CACHE_NAME);
         roomCacheBuilders.put(keyRoomBuilder, roomBuilder);
+
         return (DB) roomBuilder.build();
     }
 
-    public static void initSessionManager(Context context, GlobalConfig globalConfig) {
+    public void initSessionManager(Context context, GlobalConfig globalConfig) {
         sessionBuilder.withContext(context)
                 //默认使用腾讯的MMKV作为存储用户信息的工具
                 .sessionManager(new MmkvSessionManager(context));
@@ -183,7 +173,7 @@ final class ObjectFactory {
         SessionManager.init(sessionBuilder.build());
     }
 
-    public static void initCrashManager(Context context, GlobalConfig globalConfig) {
+    public void initCrashManager(Context context, GlobalConfig globalConfig) {
         crashBuilder
                 //背景模式,开启沉浸式
                 .backgroundMode(CaocConfig.BACKGROUND_MODE_SILENT)
@@ -206,7 +196,7 @@ final class ObjectFactory {
         crashBuilder.apply();
     }
 
-    public static LoggingInterceptor getLoggingInterceptor() {
+    public LoggingInterceptor getLoggingInterceptor() {
         return new LoggingInterceptor.Builder()
                 .loggable(BuildConfig.DEBUG)
                 .setLevel(Level.BASIC)
@@ -217,7 +207,7 @@ final class ObjectFactory {
                 .build();
     }
 
-    public static void initAutoSize(GlobalConfig globalConfig) {
+    public void initAutoSize(GlobalConfig globalConfig) {
         //初始化屏幕适配器
         int designWidth = globalConfig.getDesignWidth();
         int designHeight = globalConfig.getDesignHeight();
@@ -236,14 +226,17 @@ final class ObjectFactory {
         }
     }
 
-    public static void clear() {
+    public void clear() {
         gsonBuilder = null;
         okhttpBuilder = null;
         retrofitBuilder = null;
         if (roomBuilders != null) {
             roomBuilders.clear();
-            roomBuilders = null;
         }
+        roomBuilders = null;
+        if (roomCacheBuilders != null) {
+            roomCacheBuilders.clear();
+        }
+        roomCacheBuilders = null;
     }
-
 }

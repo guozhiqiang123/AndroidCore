@@ -1,6 +1,7 @@
 package com.gzq.lib_resource.dialog;
 
 import android.support.annotation.ColorRes;
+import android.support.v4.app.FragmentManager;
 import android.view.Gravity;
 import android.view.View;
 
@@ -73,9 +74,9 @@ public class ConfirmDialog {
         return this;
     }
 
-    public void show() {
+    public void show(FragmentManager fm) {
         fDialog.setLayoutId(R.layout.dialog_layout_confirm)
-                .setWidth(AutoSizeUtils.pt2px(Box.getApp(),540))
+                .setWidth(AutoSizeUtils.pt2px(Box.getApp(), 540))
                 .setConvertListener(new ViewConvertListener() {
                     @Override
                     protected void convertView(DialogViewHolder holder, final FDialog dialog) {
@@ -98,6 +99,6 @@ public class ConfirmDialog {
                         holder.setTextGravity(R.id.tv_message, contentTextGravity);
                     }
                 })
-                .show();
+                .show(fm);
     }
 }
