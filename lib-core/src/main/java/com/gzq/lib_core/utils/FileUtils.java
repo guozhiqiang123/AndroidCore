@@ -4,11 +4,7 @@ import android.os.Environment;
 
 import java.io.File;
 
-/**
- * Created by wzm on 2017/6/16.
- */
-
-public class FileUtils {
+public final class FileUtils {
 
     /**
      * 检查sd卡状态

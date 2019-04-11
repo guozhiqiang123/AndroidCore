@@ -13,6 +13,7 @@ import com.gzq.lib_core.base.delegate.GlobalModule;
 import com.gzq.lib_core.base.delegate.MetaValue;
 import com.gzq.lib_core.base.quality.LeakCanaryUtil;
 import com.gzq.lib_core.log.CrashReportingTree;
+import com.gzq.lib_core.toast.T;
 import com.gzq.lib_core.utils.KVUtils;
 import com.gzq.lib_core.utils.ManifestParser;
 
@@ -52,6 +53,8 @@ public class App extends Application {
         instance = this;
         initGlobalConfig();
 
+        //Toast初始化
+        T.it().init(this);
         //初始化屏幕适配器
         ObjectFactory.INSTANCE.initAutoSize(getGlobalConfig());
         //初始化LeakCanary

@@ -3,7 +3,7 @@ package com.example.module_test1.interceptor;
 import android.app.Activity;
 
 import com.gzq.lib_core.base.Box;
-import com.gzq.lib_core.utils.ToastUtils;
+import com.gzq.lib_core.toast.T;
 import com.gzq.lib_resource.router.CommonRouterApi;
 import com.sjtu.yifei.annotation.Interceptor;
 import com.sjtu.yifei.route.AInterceptor;
@@ -25,7 +25,7 @@ public class LoginInterceptor implements AInterceptor {
                             if (isLogin) {
                                 chain.proceed();
                             } else {
-                                ToastUtils.showShort("请先登录");
+                                T.show("请先登录");
                             }
                         }
                     }

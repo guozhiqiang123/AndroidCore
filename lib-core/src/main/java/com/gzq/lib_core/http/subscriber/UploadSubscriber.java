@@ -3,7 +3,6 @@ package com.gzq.lib_core.http.subscriber;
 
 import com.gzq.lib_core.http.exception.ApiException;
 import com.gzq.lib_core.http.model.BaseModel;
-import com.gzq.lib_core.utils.ToastUtils;
 
 /**
  * Created by wzm on 2017/6/11.
@@ -33,7 +32,7 @@ public abstract class UploadSubscriber<T> extends BaseSubscriber{
     @Override
     protected void onError(ApiException ex) {
         _onError(ex.code,ex.message);
-        ToastUtils.showShort(ex.message+":"+ex.code);
+        com.gzq.lib_core.toast.T.show(ex.message+":"+ex.code);
     }
 
     protected abstract void _onNext(T result);

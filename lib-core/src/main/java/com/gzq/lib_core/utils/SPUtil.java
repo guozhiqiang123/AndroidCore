@@ -10,7 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
 
-public class SPUtil {
+public final class SPUtil {
 
     /**
      * 保存在手机里面的文件名

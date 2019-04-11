@@ -5,11 +5,10 @@ import android.databinding.ObservableField;
 import com.gzq.androidcore.bean.MainMenuBean;
 import com.gzq.androidcore.router.AppRouterApi;
 import com.gzq.lib_core.base.Box;
-import com.gzq.lib_core.utils.ToastUtils;
+import com.gzq.lib_core.toast.T;
 import com.gzq.lib_resource.mvvm.base.RVItemBaseModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
-import com.gzq.lib_resource.router.CommonRouterApi;
 import com.sjtu.yifei.route.Routerfit;
 
 public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
@@ -26,7 +25,7 @@ public class MainActivityItemModel extends RVItemBaseModel<MainActivityModel> {
         public void call() {
             int position = viewModel.menus.indexOf(MainActivityItemModel.this);
             if (position == 0) {
-                ToastUtils.showShort("该页面就是");
+                T.show("该页面就是");
             } else if (position == 1) {
                 Routerfit.register(AppRouterApi.class).skipRecycleViewMoreStyleActivity();
             } else if (position == 2) {

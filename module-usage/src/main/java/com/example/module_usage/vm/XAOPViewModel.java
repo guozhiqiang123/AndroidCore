@@ -1,15 +1,11 @@
 package com.example.module_usage.vm;
 
 import android.Manifest;
-import android.app.Activity;
 import android.view.View;
 
 import com.gzq.lib_core.base.Box;
-import com.gzq.lib_core.utils.ToastUtils;
+import com.gzq.lib_core.toast.T;
 import com.gzq.lib_resource.mvvm.base.BaseViewModel;
-import com.gzq.lib_resource.router.CommonRouterApi;
-import com.sjtu.yifei.route.ActivityCallback;
-import com.sjtu.yifei.route.Routerfit;
 import com.xuexiang.xaop.XAOP;
 import com.xuexiang.xaop.annotation.IOThread;
 import com.xuexiang.xaop.annotation.Intercept;
@@ -30,7 +26,7 @@ public class XAOPViewModel extends BaseViewModel {
         XAOP.setOnPermissionDeniedListener(new PermissionUtils.OnPermissionDeniedListener() {
             @Override
             public void onDenied(List<String> permissionsDenied) {
-                ToastUtils.showShort("被拒绝的权限：" + Box.getGson().toJson(permissionsDenied));
+                T.show("被拒绝的权限：" + Box.getGson().toJson(permissionsDenied));
             }
         });
 
@@ -39,7 +35,7 @@ public class XAOPViewModel extends BaseViewModel {
             public boolean intercept(int type, JoinPoint joinPoint) throws Throwable {
                 switch (type) {
                     case 3:
-                        ToastUtils.showShort("拦截器中的操作");
+                        T.show("拦截器中的操作");
                         return false;
                     case 5:
                         return false;
@@ -64,14 +60,14 @@ public class XAOPViewModel extends BaseViewModel {
         @SingleClick(2000)
         @Override
         public void onClick(View v) {
-            ToastUtils.showShort("疯狂点击我");
+            T.show("疯狂点击我");
         }
     };
     public View.OnClickListener clickInterceptor = new View.OnClickListener() {
         @Intercept({3, 5})
         @Override
         public void onClick(View v) {
-            ToastUtils.showShort("拦截器之后的事件");
+            T.show("拦截器之后的事件");
         }
     };
 
@@ -79,7 +75,7 @@ public class XAOPViewModel extends BaseViewModel {
         @MainThread
         @Override
         public void onClick(View v) {
-            ToastUtils.showShort("当前的线程：" + Thread.currentThread().getName());
+            T.show("当前的线程：" + Thread.currentThread().getName());
         }
     };
 
@@ -87,13 +83,13 @@ public class XAOPViewModel extends BaseViewModel {
         @IOThread(ThreadType.Network)
         @Override
         public void onClick(View v) {
-            ToastUtils.showShort("当前的线程：" + Thread.currentThread().getName());
+            T.show("当前的线程：" + Thread.currentThread().getName());
         }
     };
 
     @Permission({Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA})
     private void requestPermissions() {
-        ToastUtils.showShort("我是请求权限成功之后需要做的事情");
+        T.show("我是请求权限成功之后需要做的事情");
     }
 
 }

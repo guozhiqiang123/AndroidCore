@@ -12,21 +12,13 @@ import com.gzq.lib_core.base.config.SessionManagerConfig;
 import com.gzq.lib_core.base.delegate.GlobalModule;
 import com.gzq.lib_core.crash.CaocConfig;
 import com.gzq.lib_core.http.cache.CacheMode;
-import com.gzq.lib_core.http.cache.RoomCacheInterceptor;
-import com.gzq.lib_core.session.PreferencesSessionManager;
 import com.gzq.lib_core.session.SessionConfig;
 import com.gzq.lib_core.session.SessionToken;
 import com.gzq.lib_core.session.SessionUserInfo;
-import com.gzq.lib_core.utils.ProcessUtils;
-import com.gzq.lib_resource.utils.DeviceUtils;
-
-import java.io.IOException;
+import com.gzq.lib_resource.utils.ProcessUtils;
 
 import me.jessyan.autosize.unit.Subunits;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import tech.linjiang.pandora.Pandora;
 import timber.log.Timber;

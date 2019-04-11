@@ -42,10 +42,6 @@ import timber.log.Timber;
 
 enum ObjectFactory {
     INSTANCE;
-    /**
-     * 默认超时时间,单位秒
-     */
-    private static final int DEFAULT_TIMEOUT = 10;
 
     private GsonBuilder gsonBuilder = new GsonBuilder();
     private OkHttpClient.Builder okhttpBuilder = new OkHttpClient.Builder();
@@ -71,9 +67,9 @@ enum ObjectFactory {
      */
     public OkHttpClient getOkHttpClient(Context context, GlobalConfig globalConfig) {
         okhttpBuilder
-                .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
-                .readTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .connectTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(Constants.DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .retryOnConnectionFailure(true);
         OkhttpConfig okhttpConfig = globalConfig.getOkhttpConfig();
         if (okhttpConfig != null) {

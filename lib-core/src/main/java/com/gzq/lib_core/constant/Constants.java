@@ -28,4 +28,8 @@ public interface Constants {
      * 默认缓存数据库名字
      */
     String ROOM_CACHE_NAME = "Room-Cache-Database";
+    /**
+     * 网络请求默认超时时间
+     */
+    int DEFAULT_TIMEOUT = 10;
 }

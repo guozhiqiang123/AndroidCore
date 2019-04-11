@@ -1,29 +1,24 @@
 package com.example.module_test1.vm;
 
 import android.app.Activity;
-import android.arch.lifecycle.MutableLiveData;
 import android.databinding.ObservableField;
-import android.os.Handler;
 import android.text.TextUtils;
+import android.view.Gravity;
 
 import com.example.module_test1.R;
 import com.example.module_test1.api.LoginRegisterApi;
 import com.example.module_test1.ui.LoginActivity;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.http.observer.CommonObserver;
+import com.gzq.lib_core.toast.T;
+import com.gzq.lib_core.toast.style.ToastQQStyle;
 import com.gzq.lib_core.utils.RxUtils;
-import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.mvvm.base.BaseViewModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;
 import com.gzq.lib_resource.mvvm.binding.command.BindingCommand;
 import com.gzq.lib_resource.mvvm.binding.command.BindingConsumer;
 import com.gzq.lib_resource.router.CommonRouterApi;
 import com.sjtu.yifei.route.Routerfit;
-
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Action;
-import io.reactivex.functions.Consumer;
-import io.reactivex.observers.DefaultObserver;
 
 public class LoginViewModel extends BaseViewModel<LoginActivity> {
     private boolean isStartForResult;
@@ -62,7 +57,7 @@ public class LoginViewModel extends BaseViewModel<LoginActivity> {
             if (password.isEmpty())
                 return;
             if (!password.matches("[A-Za-z0-9]+")) {
-                ToastUtils.showShort(R.string.please_input_limit_pwd);
+                T.show(R.string.please_input_limit_pwd);
                 editPassword.set("");
                 return;
             }
@@ -96,7 +91,7 @@ public class LoginViewModel extends BaseViewModel<LoginActivity> {
             String phone = editPhone.get();
             String password = editPassword.get();
             if (TextUtils.isEmpty(phone) || TextUtils.isEmpty(password)) {
-                ToastUtils.showShort(R.string.please_input_phone_and_password);
+                T.show(R.string.please_input_phone_and_password);
                 return;
             }
             login(phone, password);
@@ -106,14 +101,14 @@ public class LoginViewModel extends BaseViewModel<LoginActivity> {
     public BindingCommand clickRegister = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ToastUtils.showShort("点击了注册按钮");
+            T.show("点击了注册按钮");
         }
     });
 
     public BindingCommand clickForgetPassword = new BindingCommand(new BindingAction() {
         @Override
         public void call() {
-            ToastUtils.showShort("点击了忘记密码");
+            T.show("点击了忘记密码");
         }
     });
 
@@ -136,7 +131,7 @@ public class LoginViewModel extends BaseViewModel<LoginActivity> {
 
                     @Override
                     public void onNext(Object o) {
-                        ToastUtils.showShort("登录成功");
+                        T.show("登录成功");
                         Box.getSessionManager().setUser(o);
                         if (!isStartForResult) {
                             Routerfit.register(CommonRouterApi.class).skipMainActivity();

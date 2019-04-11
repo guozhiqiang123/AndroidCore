@@ -1,7 +1,6 @@
 package com.gzq.lib_core.http.observer;
 
 import com.gzq.lib_core.http.exception.ApiException;
-import com.gzq.lib_core.utils.ToastUtils;
 
 
 public abstract class CommonObserver<T> extends BaseObserver<T> {
@@ -16,7 +15,7 @@ public abstract class CommonObserver<T> extends BaseObserver<T> {
 
     @Override
     protected void onError(ApiException ex) {
-        ToastUtils.showShort(ex.message + ":" + ex.code);
+        com.gzq.lib_core.toast.T.show(ex.message + ":" + ex.code);
         if (emptyCode != 0 && ex.code == emptyCode) {
             onEmptyData();
         }
@@ -24,7 +23,7 @@ public abstract class CommonObserver<T> extends BaseObserver<T> {
 
     @Override
     protected void onNetError() {
-        ToastUtils.showShort("当前无网络，请检查网络情况");
+        com.gzq.lib_core.toast.T.show("当前无网络，请检查网络情况");
     }
 
     @Override

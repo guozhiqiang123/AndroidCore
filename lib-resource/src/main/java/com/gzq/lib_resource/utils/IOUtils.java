@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.gzq.lib_core.utils;
+package com.gzq.lib_resource.utils;
 
 import android.os.Build;
 import android.os.StatFs;

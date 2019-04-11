@@ -2,51 +2,15 @@ package com.gzq.lib_resource.utils;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Application;
-import android.app.KeyguardManager;
-import android.content.ContentResolver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
-import android.os.Build;
-import android.os.Looper;
-import android.os.SystemClock;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.util.Log;
-import android.util.Xml;
-import android.view.Surface;
-import android.view.View;
-import android.view.WindowManager;
 
 import com.gzq.lib_core.base.App;
-import com.gzq.lib_core.utils.FileUtils;
-import com.gzq.lib_core.utils.ToastUtils;
-
-import org.xmlpull.v1.XmlSerializer;
-
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.LineNumberReader;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import com.gzq.lib_core.toast.T;
 
 /**
  * 设备工具类
@@ -100,7 +64,7 @@ public class DeviceUtils {
         //android.telephony.TelephonyManager
         TelephonyManager mTelephony = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
-            ToastUtils.showShort("请先获取读取手机设备权限");
+            T.show("请先获取读取手机设备权限");
             return null;
         }
         if (mTelephony.getDeviceId() != null) {

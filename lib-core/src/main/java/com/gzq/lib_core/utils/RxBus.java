@@ -14,7 +14,7 @@ import io.reactivex.subjects.Subject;
 /**
  * 只会把在订阅发生的时间点之后来自原始Observable的数据发射给观察者
  */
-public class RxBus {
+public final class RxBus {
     private static volatile RxBus mDefaultInstance;
     private final Subject<Object> mBus;
 

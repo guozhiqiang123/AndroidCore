@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Stack;
 
 
-public class ActivityUtils {
+public final class ActivityUtils {
 
     private static Stack<Activity> activityStack;
 
@@ -42,7 +42,7 @@ public class ActivityUtils {
      * 结束当前Activity（堆栈中最后一个压入的）
      */
     public static void finishActivity() {
-        if (activityStack!=null){
+        if (activityStack != null) {
             Activity activity = activityStack.lastElement();
             finishActivity(activity);
         }

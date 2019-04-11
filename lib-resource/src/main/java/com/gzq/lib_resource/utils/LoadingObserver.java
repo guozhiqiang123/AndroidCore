@@ -7,8 +7,6 @@ import android.support.v4.app.FragmentManager;
 
 import com.gzq.lib_core.http.exception.ApiException;
 import com.gzq.lib_core.http.observer.BaseObserver;
-import com.gzq.lib_core.utils.NetworkUtils;
-import com.gzq.lib_core.utils.ToastUtils;
 import com.gzq.lib_resource.R;
 import com.gzq.lib_resource.dialog.FDialog;
 
@@ -28,13 +26,13 @@ public abstract class LoadingObserver<T> extends BaseObserver<T> {
 
     @Override
     protected void onNetError() {
-        ToastUtils.showShort("当前无网络，请检查网络情况");
+        com.gzq.lib_core.toast.T.show("当前无网络，请检查网络情况");
     }
 
     @Override
     protected void onError(ApiException ex) {
         hideLoading();
-        ToastUtils.showShort(ex.message + ":" + ex.code);
+        com.gzq.lib_core.toast.T.show(ex.message + ":" + ex.code);
     }
 
     @Override
