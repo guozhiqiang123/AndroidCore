@@ -1,9 +1,6 @@
 package com.gzq.lib_resource.mvvm.base;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LifecycleOwner;
-import android.databinding.ObservableField;
 import android.support.annotation.CallSuper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -13,16 +10,13 @@ import android.support.v4.app.SupportActivity;
 import com.gzq.lib_resource.R;
 import com.gzq.lib_resource.dialog.FDialog;
 
-/**
- * Created by goldze on 2017/6/15.
- */
 public abstract class BaseViewModel<V extends FragmentActivity> implements IBaseViewModel {
     protected V activity;
     private FDialog fd;
 
     @Override
     public void onCreate(@NonNull LifecycleOwner owner) {
-        if (owner instanceof SupportActivity) {
+        if (owner instanceof FragmentActivity) {
             activity = (V) owner;
         } else if (owner instanceof Fragment) {
             activity = (V) ((Fragment) owner).getActivity();
