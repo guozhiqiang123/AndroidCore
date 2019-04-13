@@ -5,6 +5,8 @@ apply plugin: 'com.sjtu.yifei.autoinject'
 //XAOP
 apply plugin: 'com.xuexiang.xaop'
 apply plugin: 'kotlin-android'
+//appinit
+apply plugin: 'appinit-plugin'
 
 //该文件是公共配置，除了公用库不能引用外，业务组件均可引用
 //为什么公用库不能使用该插件？====>因为公用库会在本文件的dependencies中添加，如果公用库再使用该插件，岂不是循环依赖了？

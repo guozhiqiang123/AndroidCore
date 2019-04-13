@@ -2,58 +2,74 @@ package com.gzq.lib_core.base;
 
 import android.app.Application;
 import android.arch.persistence.room.RoomDatabase;
-import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.ColorRes;
-import android.support.annotation.NonNull;
 import android.support.annotation.StringRes;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 
 import com.google.gson.Gson;
-import com.gzq.lib_core.base.delegate.AppLifecycle;
+import com.gzq.lib_core.base.quality.LeakCanaryUtil;
 import com.gzq.lib_core.session.SessionManager;
+import com.gzq.lib_core.toast.T;
+import com.gzq.lib_core.utils.KVUtils;
+import com.sankuai.erp.component.appinit.api.SimpleAppInit;
+import com.sankuai.erp.component.appinit.common.AppInit;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import timber.log.Timber;
 
-public class Box implements AppLifecycle {
+@AppInit(priority = 0, description = "Box被初始化")
+public final class Box extends SimpleAppInit {
     private static final String TAG = "Box";
-    private static Application mApplication;
+    private static Application mApp;
     private static Gson gson;
     private static Retrofit retrofit;
     private static Handler handler;
     private static OkHttpClient okHttpClient;
 
     @Override
-    public void attachBaseContext(@NonNull Context base) {
-
+    public void onCreate() {
+        super.onCreate();
+        Timber.i("初始化---->Box--->onCreate");
+        mApp = mApplication;
+        //Toast初始化
+        T.instance().init(mApp);
+        //初始化屏幕适配器
+        ObjectFactory.INSTANCE.initAutoSize(App.getGlobalConfig());
+        //初始化KVUtil
+        KVUtils.init(mApp);
+        //用户信息管理器
+        ObjectFactory.INSTANCE.initSessionManager(mApp, App.getGlobalConfig());
     }
 
     @Override
-    public void onCreate(@NonNull Application application) {
-        mApplication = application;
-        Timber.tag(TAG).i("onCreate");
+    public boolean needAsyncInit() {
+        return true;
     }
 
     @Override
-    public void onTerminate(@NonNull Application application) {
-        mApplication = null;
+    public void asyncOnCreate() {
+        Timber.i("初始化---->Box--->asyncOnCreate");
+        //崩溃拦截配置
+        ObjectFactory.INSTANCE.initCrashManager(mApp, App.getGlobalConfig());
+        //初始化LeakCanary
+        LeakCanaryUtil.getInstance().init(mApp);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        mApp = null;
         gson = null;
         retrofit = null;
-        Timber.tag(TAG).i("onTerminate");
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
     }
 
 
     public static Application getApp() {
-        return mApplication;
+        return mApp;
     }
 
     /**
@@ -63,14 +79,14 @@ public class Box implements AppLifecycle {
      */
     public static Gson getGson() {
         if (gson == null) {
-            gson = ObjectFactory.INSTANCE.getGson(mApplication, App.getGlobalConfig());
+            gson = ObjectFactory.INSTANCE.getGson(mApp, App.getGlobalConfig());
         }
         return gson;
     }
 
     public static OkHttpClient getOkHttpClient() {
         if (okHttpClient == null) {
-            okHttpClient = ObjectFactory.INSTANCE.getOkHttpClient(mApplication, App.getGlobalConfig());
+            okHttpClient = ObjectFactory.INSTANCE.getOkHttpClient(mApp, App.getGlobalConfig());
         }
         return okHttpClient;
     }
@@ -82,7 +98,7 @@ public class Box implements AppLifecycle {
      */
     public static <T> T getRetrofit(Class<T> serviceClazz) {
         if (retrofit == null) {
-            retrofit = ObjectFactory.INSTANCE.getRetrofit(mApplication, App.getGlobalConfig());
+            retrofit = ObjectFactory.INSTANCE.getRetrofit(mApp, App.getGlobalConfig());
         }
         return retrofit.create(serviceClazz);
     }
@@ -95,7 +111,7 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static <DB extends RoomDatabase> DB getRoomDataBase(Class<? extends RoomDatabase> databaseClazz) {
-        return ObjectFactory.INSTANCE.getRoomDatabase(mApplication, databaseClazz, App.getGlobalConfig());
+        return ObjectFactory.INSTANCE.getRoomDatabase(mApp, databaseClazz, App.getGlobalConfig());
     }
 
     /**
@@ -106,7 +122,7 @@ public class Box implements AppLifecycle {
      * @return
      */
     public static <DB extends RoomDatabase> DB getCacheRoomDataBase(Class<? extends RoomDatabase> databaseClazz) {
-        return ObjectFactory.INSTANCE.getCacheRoomDatabase(mApplication, databaseClazz);
+        return ObjectFactory.INSTANCE.getCacheRoomDatabase(mApp, databaseClazz);
     }
 
     /**

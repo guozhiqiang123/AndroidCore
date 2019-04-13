@@ -1,6 +1,8 @@
 //该模块最主要的作用是减少下面代码的重复书写
 //判断该模块是library还是app
 apply from: rootProject.file('auto-dependences.gradle')
+//appinit
+apply plugin: 'appinit-plugin'
 android {
     compileSdkVersion rootProject.ext.android["compileSdkVersion"]
 

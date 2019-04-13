@@ -1,5 +1,7 @@
 package com.gzq.lib_core.constant;
 
+import com.gzq.lib_core.base.Box;
+
 /**
  * created on 2018/10/16 11:28
  * created by: gzq
@@ -20,7 +22,7 @@ public interface Constants {
     String KEY_SESSION_TOKEN = "session_token";
     /**
      * room数据库默认的名字
-     * {@link com.gzq.lib_core.base.Box#getRoomDataBase(Class)}
+     * {@link Box#getRoomDataBase(Class)}
      */
     String NAME_ROOM_DATABASE = "EasyDB";
 

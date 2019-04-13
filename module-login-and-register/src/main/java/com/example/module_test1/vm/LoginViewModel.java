@@ -3,7 +3,6 @@ package com.example.module_test1.vm;
 import android.app.Activity;
 import android.databinding.ObservableField;
 import android.text.TextUtils;
-import android.view.Gravity;
 
 import com.example.module_test1.R;
 import com.example.module_test1.api.LoginRegisterApi;
@@ -11,7 +10,6 @@ import com.example.module_test1.ui.LoginActivity;
 import com.gzq.lib_core.base.Box;
 import com.gzq.lib_core.http.observer.CommonObserver;
 import com.gzq.lib_core.toast.T;
-import com.gzq.lib_core.toast.style.ToastQQStyle;
 import com.gzq.lib_core.utils.RxUtils;
 import com.gzq.lib_resource.mvvm.base.BaseViewModel;
 import com.gzq.lib_resource.mvvm.binding.command.BindingAction;

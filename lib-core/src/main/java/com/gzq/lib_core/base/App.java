@@ -7,8 +7,6 @@ import android.support.multidex.MultiDex;
 import android.util.Log;
 
 import com.gzq.lib_core.BuildConfig;
-import com.gzq.lib_core.base.delegate.AppDelegate;
-import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_core.base.delegate.GlobalModule;
 import com.gzq.lib_core.base.delegate.MetaValue;
 import com.gzq.lib_core.base.quality.LeakCanaryUtil;
@@ -17,14 +15,19 @@ import com.gzq.lib_core.toast.T;
 import com.gzq.lib_core.utils.KVUtils;
 import com.gzq.lib_core.utils.ManifestParser;
 import com.gzq.lib_core.utils.Preconditions;
+import com.sankuai.erp.component.appinit.api.AppInitApiUtils;
+import com.sankuai.erp.component.appinit.api.AppInitManager;
+import com.sankuai.erp.component.appinit.api.SimpleAppInitCallback;
+import com.sankuai.erp.component.appinit.common.AppInitItem;
+import com.sankuai.erp.component.appinit.common.ChildInitTable;
 
 import java.util.List;
+import java.util.Map;
 
 import timber.log.Timber;
 
 public class App extends Application {
     private static final String TAG = "App";
-    private AppLifecycle appLifecycle;
     private static Application instance;
     private static GlobalConfig globalConfig;
     private static GlobalConfig.Builder globalBuilder;
@@ -34,17 +37,11 @@ public class App extends Application {
         super.attachBaseContext(base);
         //初始化分包插件
         MultiDex.install(base);
-
         if (BuildConfig.DEBUG) {
             Timber.plant(new Timber.DebugTree());
         } else {
             Timber.plant(new CrashReportingTree());
         }
-
-        if (appLifecycle == null) {
-            appLifecycle = new AppDelegate(base);
-        }
-        appLifecycle.attachBaseContext(base);
         Timber.tag(TAG).i("attachBaseContext: ");
     }
 
@@ -52,22 +49,53 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
-        initGlobalConfig();
 
-        //Toast初始化
-        T.instance().init(this);
-        //初始化屏幕适配器
-        ObjectFactory.INSTANCE.initAutoSize(getGlobalConfig());
-        //初始化LeakCanary
-        LeakCanaryUtil.getInstance().init(this);
-        //初始化KVUtil
-        KVUtils.init(this);
-        //用户信息管理器
-        ObjectFactory.INSTANCE.initSessionManager(this, getGlobalConfig());
-        //崩溃拦截配置
-        ObjectFactory.INSTANCE.initCrashManager(this, getGlobalConfig());
+        AppInitManager.get().init(this, new SimpleAppInitCallback() {
+            /**
+             * 开始初始化
+             *
+             * @param isMainProcess 是否为主进程
+             * @param processName   进程名称
+             */
+            @Override
+            public void onInitStart(boolean isMainProcess, String processName) {
+                // 在所有的初始化类之前初始化
+                initGlobalConfig();
+            }
 
-        appLifecycle.onCreate(instance);
+            /*
+             * 是否为 debug 模式
+             */
+            @Override
+            public boolean isDebug() {
+                return BuildConfig.DEBUG;
+            }
+
+            /**
+             * 通过 coordinate 自定义依赖关系映射，键值都是 coordinate。「仅在需要发热补的情况下才自定义，否则返回 null」
+             *
+             * @return 如果返回的 map 不为空，则会在启动是检测依赖并重新排序
+             */
+            @Override
+            public Map<String, String> getCoordinateAheadOfMap() {
+                return null;
+            }
+
+            /**
+             * 同步初始化完成
+             *
+             * @param isMainProcess      是否为主进程
+             * @param processName        进程名称
+             * @param childInitTableList 初始化模块列表
+             * @param appInitItemList    初始化列表
+             */
+            @Override
+            public void onInitFinished(boolean isMainProcess, String processName, List<ChildInitTable> childInitTableList, List<AppInitItem> appInitItemList) {
+                // 获取运行期初始化日志信息
+                String initLogInfo = AppInitApiUtils.getInitOrderAndTimeLog(childInitTableList, appInitItemList);
+                Log.d("statisticInitInfo", initLogInfo);
+            }
+        });
         Timber.tag(TAG).i("onCreate");
 
     }
@@ -85,9 +113,8 @@ public class App extends Application {
     @Override
     public void onTerminate() {
         super.onTerminate();
-        appLifecycle.onTerminate(instance);
+        AppInitManager.get().onTerminate();
         ObjectFactory.INSTANCE.clear();
-        appLifecycle = null;
         instance = null;
         globalConfig = null;
         globalBuilder = null;
@@ -96,9 +123,21 @@ public class App extends Application {
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        appLifecycle.onConfigurationChanged(newConfig);
+        AppInitManager.get().onConfigurationChanged(newConfig);
         super.onConfigurationChanged(newConfig);
         Timber.tag(TAG).i("onConfigurationChanged:");
+    }
+
+    @Override
+    public void onLowMemory() {
+        super.onLowMemory();
+        AppInitManager.get().onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        super.onTrimMemory(level);
+        AppInitManager.get().onTrimMemory(level);
     }
 
     /**

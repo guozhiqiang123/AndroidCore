@@ -4,39 +4,33 @@ import android.app.Application;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.github.moduth.blockcanary.BlockCanary;
 import com.github.moduth.blockcanary.BlockCanaryContext;
 import com.github.moduth.blockcanary.internal.BlockInfo;
-import com.gzq.lib_core.base.delegate.AppLifecycle;
 import com.gzq.lib_core.utils.NetworkUtils;
+import com.sankuai.erp.component.appinit.api.SimpleAppInit;
+import com.sankuai.erp.component.appinit.common.AppInit;
 
 import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-public class QualityBlockCanary implements AppLifecycle{
-    @Override
-    public void attachBaseContext(@NonNull Context base) {
+import timber.log.Timber;
 
+@AppInit(priority = 10,description = "BlockCanary被初始化",onlyForDebug = true)
+public class QualityBlockCanary extends SimpleAppInit {
+    @Override
+    public boolean needAsyncInit() {
+        return true;
     }
 
     @Override
-    public void onCreate(@NonNull Application application) {
-        BlockCanary.install(application,new MyConfigBlockCanary(application)).start();
-    }
-
-    @Override
-    public void onTerminate(@NonNull Application application) {
-
-    }
-
-    @Override
-    public void onConfigurationChanged(@NonNull Configuration newConfig) {
-
+    public void asyncOnCreate() {
+        super.asyncOnCreate();
+        Timber.i("初始化：---------->QualityBlockCanary--->asyncOnCreate");
+        BlockCanary.install(mApplication,new MyConfigBlockCanary(mApplication)).start();
     }
 
     static class MyConfigBlockCanary extends BlockCanaryContext {

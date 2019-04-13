@@ -14,18 +14,11 @@
             android:authorities="${applicationId}.customactivityoncrashinitprovider"
             android:exported="false"
             android:initOrder="101" />
-
-        <meta-data
-            android:name="com.gzq.lib_core.base.Box"
-            android:value="AppLifecycle" />
         <meta-data
             android:name="com.gzq.lib_core.base.quality.QualityActivity"
             android:value="ActivityLifecycle" />
         <meta-data
             android:name="com.gzq.lib_core.base.quality.QualityFragment"
             android:value="FragmentLifecycle" />
-        <!--<meta-data-->
-            <!--android:name="com.gzq.lib_core.base.quality.QualityBlockCanary"-->
-            <!--android:value="AppLifecycle" />-->
     </application>
 </manifest>

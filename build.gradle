@@ -19,6 +19,8 @@ buildscript {
         classpath 'com.novoda:bintray-release:0.8.1'
         //kotlin
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        //appinit
+        classpath "com.sankuai.erp.component:appinit-plugin:1.0.3"
     }
 }
 

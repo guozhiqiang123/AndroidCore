@@ -29,6 +29,8 @@ import com.gzq.lib_resource.utils.ScreenUtils;
 import com.sjtu.yifei.annotation.Route;
 import com.sjtu.yifei.route.Routerfit;
 
+import timber.log.Timber;
+
 @Route(path = "/login/register/login/activity")
 public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewModel> implements KeyboardWatcher.SoftKeyboardStateListener {
 
@@ -46,6 +48,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public int layoutId(Bundle savedInstanceState) {
+        Timber.i("初始化：--------->>LoginActivity");
         return R.layout.activity_login;
     }
 
