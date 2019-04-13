@@ -365,7 +365,7 @@ public class LoggingInterceptor implements Interceptor {
          * By default this 'hack' is not applied.
          *
          * @param useHack setup builder to use hack for Android Studio v3+ in order to have nice
-         *                output as it was in previous A.S. versions.
+         *                output as instance was in previous A.S. versions.
          * @return Builder
          * @see Logger
          */

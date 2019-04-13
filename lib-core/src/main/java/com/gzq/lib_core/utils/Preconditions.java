@@ -1,5 +1,5 @@
 
-package com.gzq.lib_resource.utils;
+package com.gzq.lib_core.utils;
 
 import android.support.annotation.Nullable;
 

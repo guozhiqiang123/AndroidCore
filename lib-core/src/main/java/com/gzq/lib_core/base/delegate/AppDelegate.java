@@ -72,6 +72,4 @@ public class AppDelegate implements AppLifecycle {
             }
         }
     }
-
-
 }

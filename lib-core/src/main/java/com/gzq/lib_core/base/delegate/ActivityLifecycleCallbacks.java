@@ -35,6 +35,9 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
         if (localClassName.startsWith("com.github.moduth.blockcanary")) {
             return;
         }
+        if (localClassName.startsWith("tech.linjiang.pandora")) {
+            return;
+        }
         //管理所有创建的Activity
         ActivityUtils.addActivity(activity);
     }
@@ -78,7 +81,7 @@ public class ActivityLifecycleCallbacks implements Application.ActivityLifecycle
     public void onActivityDestroyed(Activity activity) {
         if (fm != null) {
             fm.unregisterFragmentLifecycleCallbacks(fragmentLifecycleCallbacks);
-            fragmentLifecycleCallbacks=null;
+            fragmentLifecycleCallbacks = null;
             fm = null;
         }
         ActivityUtils.finishActivity(activity);

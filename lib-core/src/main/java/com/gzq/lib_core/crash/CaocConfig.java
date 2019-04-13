@@ -177,7 +177,7 @@ public class CaocConfig implements Serializable {
 
         /**
          * Defines if CustomActivityOnCrash crash interception mechanism is enabled.
-         * Set it to true if you want CustomActivityOnCrash to intercept crashes,
+         * Set instance to true if you want CustomActivityOnCrash to intercept crashes,
          * false if you want them to be treated as if the library was not installed.
          * The default is true.
          */
@@ -189,8 +189,8 @@ public class CaocConfig implements Serializable {
 
         /**
          * Defines if the error activity must shown the error details button.
-         * Set it to true if you want to show the full stack trace and device info,
-         * false if you want it to be hidden.
+         * Set instance to true if you want to show the full stack trace and device info,
+         * false if you want instance to be hidden.
          * The default is true.
          */
         @NonNull
@@ -201,7 +201,7 @@ public class CaocConfig implements Serializable {
 
         /**
          * Defines if the error activity should show a restart button.
-         * Set it to true if you want to show a restart button,
+         * Set instance to true if you want to show a restart button,
          * false if you want to show a close button.
          * Note that even if restart is enabled but you app does not have any launcher activities,
          * a close button will still be used by the default error activity.
@@ -279,7 +279,7 @@ public class CaocConfig implements Serializable {
         @NonNull
         public Builder eventListener(@Nullable CustomActivityOnCrash.EventListener eventListener) {
             if (eventListener != null && eventListener.getClass().getEnclosingClass() != null && !Modifier.isStatic(eventListener.getClass().getModifiers())) {
-                throw new IllegalArgumentException("The event listener cannot be an inner or anonymous class, because it will need to be serialized. Change it to a class of its own, or make it a static inner class.");
+                throw new IllegalArgumentException("The event listener cannot be an inner or anonymous class, because instance will need to be serialized. Change instance to a class of its own, or make instance a static inner class.");
             } else {
                 config.eventListener = eventListener;
             }

@@ -30,7 +30,7 @@ import java.lang.reflect.Method;
  * desc   : Toast 工具类
  */
 public final class T {
-    private static T sToastUtils;
+    private static volatile T instance;
     private static ToastHandler sToastHandler;
 
     private static IToastStyle sDefaultStyle;
@@ -43,18 +43,22 @@ public final class T {
     private T() {
     }
 
-    public static T it() {
-        if (sToastUtils == null) {
-            sToastUtils = new T();
+    public static T instance() {
+        if (instance != null)
+            return instance;
+        synchronized (T.class) {
+            if (instance == null) {
+                instance = new T();
+            }
         }
-        return sToastUtils;
+        return instance;
     }
 
     /**
      * 初始化 T 及样式
      */
     public void init(Application application, IToastStyle style) {
-        it().initStyle(style);
+        instance().initStyle(style);
         // 检查默认样式是否为空，如果是就创建一个默认样式
         if (sDefaultStyle == null) {
             sDefaultStyle = new ToastBlackStyle();
@@ -76,10 +80,10 @@ public final class T {
         sToastHandler = new ToastHandler(sToast);
 
         // 初始化布局
-        it().setView(createTextView(application.getApplicationContext()));
+        instance().setView(createTextView(application.getApplicationContext()));
 
         // 初始化位置
-        it().setGravity(sDefaultStyle.getGravity(), sDefaultStyle.getXOffset(), sDefaultStyle.getYOffset());
+        instance().setGravity(sDefaultStyle.getGravity(), sDefaultStyle.getXOffset(), sDefaultStyle.getYOffset());
     }
 
     /**

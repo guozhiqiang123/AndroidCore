@@ -84,7 +84,7 @@ public final class DefaultErrorActivity extends AppCompatActivity {
             moreInfoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    //We retrieve all the error data and show it
+                    //We retrieve all the error data and show instance
 
                     AlertDialog dialog = new AlertDialog.Builder(DefaultErrorActivity.this)
                             .setTitle(R.string.customactivityoncrash_error_activity_error_details_title)

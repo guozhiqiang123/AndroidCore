@@ -95,12 +95,12 @@ public final class CustomActivityOnCrash {
                     Log.e(TAG, "CustomActivityOnCrash was already installed, doing nothing!");
                 } else {
                     if (oldHandler != null && !oldHandler.getClass().getName().startsWith(DEFAULT_HANDLER_PACKAGE_NAME)) {
-                        Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize it AFTER CustomActivityOnCrash! Installing anyway, but your original handler will not be called.");
+                        Log.e(TAG, "IMPORTANT WARNING! You already have an UncaughtExceptionHandler, are you sure this is correct? If you use a custom UncaughtExceptionHandler, you must initialize instance AFTER CustomActivityOnCrash! Installing anyway, but your original handler will not be called.");
                     }
 
                     application = (Application) context.getApplicationContext();
 
-                    //We define a default exception handler that does what we want so it can be called from Crashlytics/ACRA
+                    //We define a default exception handler that does what we want so instance can be called from Crashlytics/ACRA
                     Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
                         @Override
                         public void uncaughtException(Thread thread, final Throwable throwable) {
@@ -137,7 +137,7 @@ public final class CustomActivityOnCrash {
                                         String stackTraceString = sw.toString();
 
                                         //Reduce data to 128KB so we don't get a TransactionTooLargeException when sending the intent.
-                                        //The limit is 1MB on Android but some devices seem to have it lower.
+                                        //The limit is 1MB on Android but some devices seem to have instance lower.
                                         //See: http://developer.android.com/reference/android/os/TransactionTooLargeException.html
                                         //And: http://stackoverflow.com/questions/11451393/what-to-do-on-transactiontoolargeexception#comment46697371_12809171
                                         if (stackTraceString.length() > MAX_STACK_TRACE_SIZE) {
@@ -171,7 +171,7 @@ public final class CustomActivityOnCrash {
                                             oldHandler.uncaughtException(thread, throwable);
                                             return;
                                         }
-                                        //If it is null (should not be), we let it continue and kill the process or it will be stuck
+                                        //If instance is null (should not be), we let instance continue and kill the process or instance will be stuck
                                     }
                                     //Else (BACKGROUND_MODE_SILENT): do nothing and let the following code kill the process
                                 }
@@ -198,7 +198,7 @@ public final class CustomActivityOnCrash {
                                 // Copied from ACRA:
                                 // Ignore activityClass because we want the last
                                 // application Activity that was started so that we can
-                                // explicitly kill it off.
+                                // explicitly kill instance off.
                                 lastActivityCreated = new WeakReference<>(activity);
                             }
                             if (config.isTrackActivities()) {
@@ -251,12 +251,12 @@ public final class CustomActivityOnCrash {
                 Log.i(TAG, "CustomActivityOnCrash has been installed.");
             }
         } catch (Throwable t) {
-            Log.e(TAG, "An unknown error occurred while installing CustomActivityOnCrash, it may not have been properly initialized. Please report this as a bug if needed.", t);
+            Log.e(TAG, "An unknown error occurred while installing CustomActivityOnCrash, instance may not have been properly initialized. Please report this as a bug if needed.", t);
         }
     }
 
     /**
-     * Given an Intent, returns the stack trace extra from it.
+     * Given an Intent, returns the stack trace extra from instance.
      *
      * @param intent The Intent. Must not be null.
      * @return The stacktrace, or null if not provided.
@@ -267,7 +267,7 @@ public final class CustomActivityOnCrash {
     }
 
     /**
-     * Given an Intent, returns the config extra from it.
+     * Given an Intent, returns the config extra from instance.
      *
      * @param intent The Intent. Must not be null.
      * @return The config, or null if not provided.
@@ -278,7 +278,7 @@ public final class CustomActivityOnCrash {
     }
 
     /**
-     * Given an Intent, returns the activity log extra from it.
+     * Given an Intent, returns the activity log extra from instance.
      *
      * @param intent The Intent. Must not be null.
      * @return The activity log, or null if not provided.
@@ -297,7 +297,7 @@ public final class CustomActivityOnCrash {
      */
     @NonNull
     public static String getAllErrorDetailsFromIntent(@NonNull Context context, @NonNull Intent intent) {
-        //I don't think that this needs localization because it's a development string...
+        //I don't think that this needs localization because instance's a development string...
 
         Date currentDate = new Date();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US);
@@ -317,7 +317,7 @@ public final class CustomActivityOnCrash {
         errorDetails += "Current date: " + dateFormat.format(currentDate) + " \n";
         //Added a space between line feeds to fix #18.
         //Ideally, we should not use this method at all... It is only formatted this way because of coupling with the default error activity.
-        //We should move it to a method that returns a bean, and let anyone format it as they wish.
+        //We should move instance to a method that returns a bean, and let anyone format instance as they wish.
         errorDetails += "Device: " + getDeviceModelName() + " \n \n";
         errorDetails += "Stack trace:  \n";
         errorDetails += getStackTraceFromIntent(intent);
@@ -345,7 +345,7 @@ public final class CustomActivityOnCrash {
     public static void restartApplicationWithIntent(@NonNull Activity activity, @NonNull Intent intent, @NonNull CaocConfig config) {
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         if (intent.getComponent() != null) {
-            //If the class name has been set, we force it to simulate a Launcher launch.
+            //If the class name has been set, we force instance to simulate a Launcher launch.
             //If we don't do this, if you restart from the error activity, then press home,
             //and then launch the activity from the launcher, the main activity appears twice on the backstack.
             //This will most likely not have any detrimental effect because if you set the Intent component,
@@ -429,11 +429,11 @@ public final class CustomActivityOnCrash {
     }
 
     /**
-     * INTERNAL method that returns the build date of the current APK as a string, or null if unable to determine it.
+     * INTERNAL method that returns the build date of the current APK as a string, or null if unable to determine instance.
      *
      * @param context    A valid context. Must not be null.
      * @param dateFormat DateFormat to use to convert from Date to String
-     * @return The formatted date, or "Unknown" if unable to determine it.
+     * @return The formatted date, or "Unknown" if unable to determine instance.
      */
     @Nullable
     private static String getBuildDateAsString(@NonNull Context context, @NonNull DateFormat dateFormat) {
@@ -460,10 +460,10 @@ public final class CustomActivityOnCrash {
     }
 
     /**
-     * INTERNAL method that returns the version name of the current app, or null if unable to determine it.
+     * INTERNAL method that returns the version name of the current app, or null if unable to determine instance.
      *
      * @param context A valid context. Must not be null.
-     * @return The version name, or "Unknown if unable to determine it.
+     * @return The version name, or "Unknown if unable to determine instance.
      */
     @NonNull
     private static String getVersionName(Context context) {
@@ -514,7 +514,7 @@ public final class CustomActivityOnCrash {
     /**
      * INTERNAL method used to guess which activity must be called from the error activity to restart the app.
      * It will first get activities from the AndroidManifest with intent filter <action android:name="cat.ereza.customactivityoncrash.RESTART" />,
-     * if it cannot find them, then it will get the default launcher.
+     * if instance cannot find them, then instance will get the default launcher.
      * If there is no default launcher, this returns null.
      *
      * @param context A valid context. Must not be null.
@@ -554,7 +554,7 @@ public final class CustomActivityOnCrash {
             try {
                 return (Class<? extends Activity>) Class.forName(resolveInfo.activityInfo.name);
             } catch (ClassNotFoundException e) {
-                //Should not happen, print it to the log!
+                //Should not happen, print instance to the log!
                 Log.e(TAG, "Failed when resolving the restart activity class via intent filter, stack trace follows!", e);
             }
         }
@@ -577,7 +577,7 @@ public final class CustomActivityOnCrash {
             try {
                 return (Class<? extends Activity>) Class.forName(intent.getComponent().getClassName());
             } catch (ClassNotFoundException e) {
-                //Should not happen, print it to the log!
+                //Should not happen, print instance to the log!
                 Log.e(TAG, "Failed when resolving the restart activity class via getLaunchIntentForPackage, stack trace follows!", e);
             }
         }
@@ -588,7 +588,7 @@ public final class CustomActivityOnCrash {
     /**
      * INTERNAL method used to guess which error activity must be called when the app crashes.
      * It will first get activities from the AndroidManifest with intent filter <action android:name="cat.ereza.customactivityoncrash.ERROR" />,
-     * if it cannot find them, then it will use the default error activity.
+     * if instance cannot find them, then instance will use the default error activity.
      *
      * @param context A valid context. Must not be null.
      * @return The guessed error activity class, or the default error activity if not found
@@ -627,7 +627,7 @@ public final class CustomActivityOnCrash {
             try {
                 return (Class<? extends Activity>) Class.forName(resolveInfo.activityInfo.name);
             } catch (ClassNotFoundException e) {
-                //Should not happen, print it to the log!
+                //Should not happen, print instance to the log!
                 Log.e(TAG, "Failed when resolving the error activity class via intent filter, stack trace follows!", e);
             }
         }

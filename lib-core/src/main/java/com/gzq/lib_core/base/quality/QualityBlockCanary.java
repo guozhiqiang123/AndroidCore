@@ -18,13 +18,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * copyright：杭州国辰迈联机器人科技有限公司
- * version: V1.2.5
- * created on 2018/10/16 11:59
- * created by: gzq
- * description: TODO
- */
 public class QualityBlockCanary implements AppLifecycle{
     @Override
     public void attachBaseContext(@NonNull Context base) {
@@ -103,7 +96,7 @@ public class QualityBlockCanary implements AppLifecycle{
         }
 
         /**
-         * Config block threshold (in millis), dispatch over this duration is regarded as a BLOCK. You may set it
+         * Config block threshold (in millis), dispatch over this duration is regarded as a BLOCK. You may set instance
          * from performance of device.
          *
          * @return threshold in mills
@@ -172,7 +165,7 @@ public class QualityBlockCanary implements AppLifecycle{
 
 
         /**
-         * Packages that developer concern, by default it uses process name,
+         * Packages that developer concern, by default instance uses process name,
          * put high priority one in pre-order.
          *
          * @return null if simply concern only package with process name.
@@ -185,7 +178,7 @@ public class QualityBlockCanary implements AppLifecycle{
         /**
          * Filter stack without any in concern package, used with @{code concernPackages}.
          *
-         * @return true if filter, false it not.
+         * @return true if filter, false instance not.
          */
         @Override
         public boolean filterNonConcernStack() {
@@ -207,7 +200,7 @@ public class QualityBlockCanary implements AppLifecycle{
         /**
          * Whether to delete files whose stack is in white list, used with white-list.
          *
-         * @return true if delete, false it not.
+         * @return true if delete, false instance not.
          */
         @Override
         public boolean deleteFilesInWhiteList() {

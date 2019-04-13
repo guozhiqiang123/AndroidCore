@@ -16,6 +16,7 @@ import com.gzq.lib_core.log.CrashReportingTree;
 import com.gzq.lib_core.toast.T;
 import com.gzq.lib_core.utils.KVUtils;
 import com.gzq.lib_core.utils.ManifestParser;
+import com.gzq.lib_core.utils.Preconditions;
 
 import java.util.List;
 
@@ -54,7 +55,7 @@ public class App extends Application {
         initGlobalConfig();
 
         //Toast初始化
-        T.it().init(this);
+        T.instance().init(this);
         //初始化屏幕适配器
         ObjectFactory.INSTANCE.initAutoSize(getGlobalConfig());
         //初始化LeakCanary
@@ -74,12 +75,8 @@ public class App extends Application {
     private void initGlobalConfig() {
         //先初始化全局配置，然后进行生命周期的分发
         List<GlobalModule> globalModules = new ManifestParser<GlobalModule>(instance, MetaValue.GLOBAL_CONFIG).parse();
-        if (globalModules == null) {
-            throw new IllegalArgumentException("Please config global");
-        }
-        if (globalModules != null && globalModules.size() > 1) {
-            throw new IllegalArgumentException("Only one GlobalConfig initialization is allowed");
-        }
+        Preconditions.checkArgument(globalModules != null && globalModules.size() == 1,
+                "Please configure your global configuration,and only one  is allowed");
         GlobalModule globalModule = globalModules.get(0);
         globalBuilder = GlobalConfig.builder();
         globalModule.applyOptions(instance, globalBuilder);
