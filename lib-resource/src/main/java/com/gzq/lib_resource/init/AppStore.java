@@ -50,7 +50,7 @@ public class AppStore extends SimpleAppInit {
 
     @Override
     public void asyncOnCreate() {
-        Timber.i("初始化：--->AppStore->asyncOnCreate");
+//        Timber.i("初始化：--->AppStore->asyncOnCreate");
         //初始化Buggly
         CrashReport.UserStrategy userStrategy = new CrashReport.UserStrategy(mApplication);
         userStrategy.setAppChannel(AppUtils.getAppInfo().getPackageName());
