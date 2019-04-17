@@ -129,6 +129,9 @@ public class Box implements AppLifecycle {
         return getApp().getResources().getString(id);
     }
 
+    public static String getString(@StringRes int id, Object... args) {
+        return String.format(getString(id), args);
+    }
     /**
      * 为了解决在fragment中使用{@link Fragment#getContext()} getContext().getColor(int color)
      * 偶尔会报java.lang.IllegalStateException-->Fragment xxxxx{xxx} not attached to a context的错误
